@@ -1,0 +1,1 @@
+<userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
