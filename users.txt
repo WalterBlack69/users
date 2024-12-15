@@ -1,2 +1,2 @@
-<userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
+<userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
 7e600d2f-0701-462f-90dd-9a90fd864e8e [active] [banned: false] [Device: OMEN 30L Desktop GT13-1xxx (HP)]
