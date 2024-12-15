@@ -1,2 +1,3 @@
 <userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
 7e600d2f-0701-462f-90dd-9a90fd864e8e [active] [banned: false] [Device: OMEN 30L Desktop GT13-1xxx (HP)]
+88d59616-2909-43c9-99df-d60ae599753f [active] [banned: false] [Device: Xiaomi 22101320I]
