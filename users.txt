@@ -3,3 +3,4 @@
 88d59616-2909-43c9-99df-d60ae599753f [active] [banned: false] [Device: Xiaomi 22101320I]
 99d461db-b388-4400-bbf4-5faee42362f9 [active] [banned: true] [Device: samsung SM-A515F]
 b57c87d8-f6a0-423b-84d9-c008d9fcd09b [active] [banned: false] [Device: Xiaomi 22101316G]
+9766b4c7-3814-4d90-a114-42f96da54f32 [active] [banned: false] [Device: samsung SM-A715F]
