@@ -9,3 +9,4 @@ b5603c3c-519f-4a2e-a086-827dacac9660 [active] [banned: false] [Device: samsung S
 43515bf5-23d1-4587-aa64-9fa68d1b96d7 [active] [banned: true] [Device: Nothing A142]
 eb5976e3-b95a-4c79-ab68-d48d26d2b385 [active] [banned: false] [Device: Xiaomi M2101K7BG]
 cb939ec7-ffe7-44dc-9cde-8da6d4e69096 [active] [banned: false] [Device: samsung SM-A705FN]
+f9b94684-b844-4dc8-aa5c-aae0976eef79 [active] [banned: false] [Device: Xiaomi 2312FPCA6G]
