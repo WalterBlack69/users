@@ -1,15 +1,15 @@
-<userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
+<userID> [active/inactive] [banned: true/false] [Device: <DeviceName>]
 7e600d2f-0701-462f-90dd-9a90fd864e8e [active] [banned: false] [Device: OMEN 30L Desktop GT13-1xxx (HP)]
-88d59616-2909-43c9-99df-d60ae599753f [active] [banned: false] [Device: Xiaomi 22101320I]
-99d461db-b388-4400-bbf4-5faee42362f9 [active] [banned: true] [Device: samsung SM-A515F]
-b57c87d8-f6a0-423b-84d9-c008d9fcd09b [active] [banned: false] [Device: Xiaomi 22101316G]
-9766b4c7-3814-4d90-a114-42f96da54f32 [active] [banned: false] [Device: samsung SM-A715F]
-347c45eb-7ef2-415f-965a-c9d73da923b0 [active] [banned: false] [Device: Xiaomi 22101316G]
-b5603c3c-519f-4a2e-a086-827dacac9660 [active] [banned: false] [Device: samsung SM-A725F]
-43515bf5-23d1-4587-aa64-9fa68d1b96d7 [active] [banned: true] [Device: Nothing A142]
-eb5976e3-b95a-4c79-ab68-d48d26d2b385 [active] [banned: false] [Device: Xiaomi M2101K7BG]
-cb939ec7-ffe7-44dc-9cde-8da6d4e69096 [active] [banned: false] [Device: samsung SM-A705FN]
-f9b94684-b844-4dc8-aa5c-aae0976eef79 [active] [banned: false] [Device: Xiaomi 2312FPCA6G]
-9f9bc46d-802f-4932-a124-6b6274df18d2 [active] [banned: false] [Device: samsung SM-A536E]
-8a7d2825-c75a-492b-9b25-f85fdc68d48e [active] [banned: false] [Device: samsung SM-A356E]
-46f309db-01bf-417c-be91-7c31df1e3828 [active] [banned: false] [Device: Xiaomi 220333QNY]
+88d59616-2909-43c9-99df-d60ae599753f [active] [banned: false] [Device: Xiaomi 22101320I]
+99d461db-b388-4400-bbf4-5faee42362f9 [active] [banned: true] [Device: samsung SM-A515F]
+b57c87d8-f6a0-423b-84d9-c008d9fcd09b [active] [banned: false] [Device: Xiaomi 22101316G]
+9766b4c7-3814-4d90-a114-42f96da54f32 [active] [banned: false] [Device: samsung SM-A715F]
+347c45eb-7ef2-415f-965a-c9d73da923b0 [active] [banned: false] [Device: Xiaomi 22101316G]
+b5603c3c-519f-4a2e-a086-827dacac9660 [active] [banned: false] [Device: samsung SM-A725F]
+43515bf5-23d1-4587-aa64-9fa68d1b96d7 [active] [banned: true] [Device: Nothing A142]
+eb5976e3-b95a-4c79-ab68-d48d26d2b385 [active] [banned: false] [Device: Xiaomi M2101K7BG]
+cb939ec7-ffe7-44dc-9cde-8da6d4e69096 [active] [banned: false] [Device: samsung SM-A705FN]
+f9b94684-b844-4dc8-aa5c-aae0976eef79 [active] [banned: false] [Device: Xiaomi 2312FPCA6G]
+9f9bc46d-802f-4932-a124-6b6274df18d2 [active] [banned: false] [Device: samsung SM-A536E]
+8a7d2825-c75a-492b-9b25-f85fdc68d48e [active] [banned: false] [Device: samsung SM-A356E]
+46f309db-01bf-417c-be91-7c31df1e3828 [active] [banned: false] [Device: Xiaomi 220333QNY]
