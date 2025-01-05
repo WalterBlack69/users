@@ -12,4 +12,4 @@ cb939ec7-ffe7-44dc-9cde-8da6d4e69096 [active] [banned: false] [Device: samsung S
 f9b94684-b844-4dc8-aa5c-aae0976eef79 [active] [banned: false] [Device: Xiaomi 2312FPCA6G]
 9f9bc46d-802f-4932-a124-6b6274df18d2 [active] [banned: false] [Device: samsung SM-A536E]
 8a7d2825-c75a-492b-9b25-f85fdc68d48e [active] [banned: false] [Device: samsung SM-A356E]
-46f309db-01bf-417c-be91-7c31df1e3828 [active] [banned: false] [Device: Xiaomi 220333QNY]
+46f309db-01bf-417c-be91-7c31df1e3828 [active] [banned: true] [Device: Xiaomi 220333QNY]
