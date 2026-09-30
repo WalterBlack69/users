@@ -273,8 +273,8 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   <div class="counter rv" style="--d:.2s" data-start="2025-10-15">
     <div class="tile"><b id="cDays">350</b><span>ימים</span></div>
     <div class="tile"><b id="cHours">8,410</b><span>שעות</span></div>
-    <div class="tile"><b id="cMin">504,624</b><span>דקות</span></div>
-    <div class="tile" id="tSec"><b id="cSec">30,277,469</b><span>שניות</span></div>
+    <div class="tile"><b id="cMin">504,636</b><span>דקות</span></div>
+    <div class="tile" id="tSec"><b id="cSec">30,278,213</b><span>שניות</span></div>
   </div>
   <div class="bar rv" style="--d:.3s" id="yearBar">
     <div class="track"><div class="fill" id="barFill" style="--w:96.0%"></div></div>
@@ -366,10 +366,10 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   /* ---- חלקיקים על כל האתר (ספריטים מוכנים מראש, בלי טשטוש בכל פריים) ---- */
   const cv=$('#siteFx'), cx=cv.getContext('2d',{alpha:true}); let W,H,R=1,parts=[],fxOn=false,raf,lastT=0,lastTrail=0,active=0,started=false;
   const MOBILE=innerWidth<700, N_AMB=MOBILE?10:20, MAX_BURST=MOBILE?90:150;
-  const COLS=['#ff2d95','#ff7ac0','#ffd3ea','#b58cff','#ffffff','#ffd54f'], SH=['♥','♥','✦','✧','🦋','●'], SHB=['♥','♥','✦','✧','🦄','🦄'];
+  const COLS=['#ff2d95','#ff7ac0','#ffd3ea','#b58cff','#ffffff','#ffd54f'], SH=['♥','♥','✦','✧','🦄','●'], SHB=['♥','♥','✦','✧','🦄','🦄'];
   const spr=new Map();
   function sprite(ch,c,s){
-    const q=Math.max(8,Math.round(s/6)*6), k=(ch==='🦋'||ch==='🦄')?ch+q:ch+c+q; let e=spr.get(k); if(e)return e;
+    const q=Math.max(8,Math.round(s/6)*6), k=(ch==='🦄'||ch==='🦄')?ch+q:ch+c+q; let e=spr.get(k); if(e)return e;
     const pad=14,sz=q+pad*2,o=document.createElement('canvas');o.width=o.height=Math.ceil(sz*R);
     const g=o.getContext('2d');g.scale(R,R);g.font=q+'px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle=c;g.shadowColor=c;g.shadowBlur=10;g.fillText(ch,sz/2,sz/2);
     e={o,sz};spr.set(k,e);return e;
@@ -491,7 +491,7 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   const sOk=()=>{tone(120,.2,0,'square',.25,50);[523,659,784,1047,1319,1568].forEach((f,i)=>{tone(f,.6,.18+i*.09,'triangle',.2);tone(f*2,.4,.18+i*.09,'sine',.06)})};
 
   /* ---- חלקיקים ---- */
-  const COLS=['#ff2d95','#ff7ac0','#ffd3ea','#c8a2ff','#ffffff','#ffd54f'], SH=['♥','♥','✦','✧','🦋'];
+  const COLS=['#ff2d95','#ff7ac0','#ffd3ea','#c8a2ff','#ffffff','#ffd54f'], SH=['♥','♥','✦','✧','🦄'];
   function size(){const r=devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*r;cv.height=H*r;cx.setTransform(r,0,0,r,0,0)}
   function ambient(){return {x:Math.random()*W,y:H+20,vx:(Math.random()-.5)*.4,vy:-(.4+Math.random()*1),s:10+Math.random()*22,c:COLS[Math.random()*6|0],ch:SH[Math.random()*SH.length|0],a:.25+Math.random()*.4,r:Math.random()*6,vr:(Math.random()-.5)*.02,g:0,life:1e9,amb:1}}
   function burst(x,y,n){for(let i=0;i<n;i++){const an=Math.random()*6.283,sp=3+Math.random()*13;
