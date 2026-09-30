@@ -378,9 +378,9 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   <p class="sub rv" style="--d:.1s">וכל רגע איתך הוא המתנה שלי</p>
   <div class="counter rv" style="--d:.2s" data-start="2025-10-15">
     <div class="tile"><b id="cDays">350</b><span>ימים</span></div>
-    <div class="tile"><b id="cHours">8,414</b><span>שעות</span></div>
-    <div class="tile"><b id="cMin">504,899</b><span>דקות</span></div>
-    <div class="tile" id="tSec"><b id="cSec">30,293,945</b><span>שניות</span></div>
+    <div class="tile"><b id="cHours">8,415</b><span>שעות</span></div>
+    <div class="tile"><b id="cMin">504,904</b><span>דקות</span></div>
+    <div class="tile" id="tSec"><b id="cSec">30,294,289</b><span>שניות</span></div>
   </div>
   <div class="bar rv" style="--d:.3s" id="yearBar">
     <div class="track"><div class="fill" id="barFill" style="--w:96.1%"></div></div>
@@ -545,7 +545,7 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   const MSG={1:'קיבלתי, ואני מאוהב בך 💗',5:'את יודעת שאני כבר מחייך? 😊',10:'עוד! אני לא מפסיק לחייך 😍',15:'הלב שלי עושה קפיצות 💓',20:'וואו, כמה אהבה! 🥹',25:'את יודעת שאני מאוהב בך עד מעל הראש, נכון?',
     30:'אני מרגיש את זה ממש מכאן 🥰',35:'אמרתי לך שאת הכי? 😘',40:'מי אמר שאי אפשר לאהוב עוד? 💞',45:'את חיסלת אותי סופית 😵‍💫',50:'הלב שלי מלא בגללך ♥',55:'אני הבן אדם הכי מאושר עכשיו 🌈',60:'תמשיכי, אני לא מתלונן 😏',
     75:'את משגעת אותי 🥰',80:'אני מאוהב בך יותר מהבוקר 🫶',85:'שנה איתך ואני עדיין רוצה עוד ✨',90:'כל לחיצה כזאת שווה לי עולם 🌍',95:'כמעט מאה, ואני כולי שלך 💘',100:'מאה! את הכל בשבילי 🔥',
-    110:'נשבע לך, לא נמאס לי לרגע 😂',120:'את הכי מתוקה בעולם 🍭',130:'לא נעים לי, אבל אני רוצה עוד 😄',140:'אני מאוהב בך עד אינסוף ♾️',150:'אני הבן אדם הכי בר מזל בעולם 🍀',
+    110:'אני יכול לקבל את זה כל היום 😂',120:'את הכי מתוקה בעולם 🍭',130:'לא נעים לי, אבל אני רוצה עוד 😄',140:'אני מאוהב בך עד אינסוף ♾️',150:'אני הבן אדם הכי בר מזל בעולם 🍀',
     160:'את יודעת שאת הכי יפה? כי את הכי יפה 👑',170:'עוד קצת ואני מתאהב מחדש 😍',180:'תמשיכי לשלוח, אני אוסף הכל 💌',190:'לב אחד לא מספיק לכל האהבה הזאת 💗',200:'עד השמיים ובחזרה 🚀'};
   const POOL=['את הסיבה שאני מחייך בבוקר ☀️','איתך הכל פשוט יותר 🫶','אני שלך, בלי תנאים 💗','את הבית שלי 🏡','שום דבר לא מנצח אותך 🏆','אהבה שלי, את לא יודעת כמה 🥺','את כל מה שביקשתי ועוד 🎁','נשארתי בלי מילים, רק לבבות 💞','עוד לב בשבילך ♥','אני חייב להגיד: את מדהימה ✨','את הכי מיוחדת 🌸','תודה שאת שלי 🥹'];
   $('#loveBtn').addEventListener('click',e=>{
@@ -724,7 +724,7 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
     at(tz-Date.now(),boom);
     function boom(){
       flash();sBoom();shake('shake2');shock();at(140,shock);at(300,shock);
-      showWord('ההמתנה נגמרה וככה עברה לה שנה');
+      showWord('ההמתנה נגמרה!!');
       glyphs(W/2,H/2,110,1.8);at(220,function(){glyphs(W/2,H/2,70,1.1)});at(420,function(){confetti(100)});
       at(200,sChoir);at(320,sArp);
       var FW=LITE?5:7;for(var i=0;i<FW;i++)(function(i){at(700+i*(LITE?400:330),function(){firework(W*(.12+Math.random()*.76),H*(.1+Math.random()*.5),COLS[i%COLS.length]);sPop();sCrackle(.08);if(i%3===0)glyphs(W*Math.random(),H*(.2+Math.random()*.3),24,.9)})})(i);
@@ -761,7 +761,7 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
     sTick();
   }
   if(ready){
-    setTitle('ההמתנה נגמרה');$('gSub').textContent='';$('gWhen').textContent='';
+    setTitle('ההמתנה נגמרה!!');$('gSub').textContent='';$('gWhen').textContent='';
     $('gGo').addEventListener('click',function(){A();setTimeout(function(){run(3,false,false)},60)});
   }else{paint();timer=setInterval(paint,1000)}
 
