@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>שנה ביחד ♥ רון וטליה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('locked')</script>
 <style>
 :root{
   --hot:#ff2d95; --pink:#ff6fb5; --soft:#ffd3ea; --blush:#fff0f8; --lilac:#c8a2ff; --deep:#5a0f3d; --ink:#3d0a29;
@@ -105,9 +106,47 @@ footer .big{color:var(--hot);font-size:3.4rem;animation:beat 1.2s infinite}
 .gift input:checked ~ .card{opacity:1;transform:translateY(-100px) scale(1);pointer-events:auto;z-index:4}
 .gift input:checked ~ .hint{display:none}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+
+/* נעילה */
+#lock{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff;
+  background:radial-gradient(circle at 50% 20%,#ff8fcaaa,transparent 60%),linear-gradient(160deg,#ff2d95,#c2187a 60%,#7b1fa2);overflow:hidden;transition:opacity .9s,transform .9s}
+.locked #lock{display:flex}
+.locked header,.locked section,.locked footer{display:none}
+.locked body{overflow:hidden}
+#lock.gone{opacity:0;transform:scale(1.15);pointer-events:none}
+#lock .icon{font-size:4.5rem;line-height:1;animation:beat 1.6s infinite;margin-bottom:22px}
+#lock h1{font-size:clamp(1.9rem,7vw,2.8rem);line-height:1.2;text-shadow:3px 3px 0 #7b1fa2aa}
+#lock p{opacity:.9;margin:8px 0 22px;font-size:1.05rem}
+#lock .dots{display:flex;gap:16px;justify-content:center;margin-bottom:26px;direction:ltr}
+#lock .dots i{width:20px;height:20px;border-radius:50%;border:2px solid #fff;transition:.2s}
+#lock .dots i.on{background:#fff;transform:scale(1.15)}
+#lock .dots.bad i{background:#ff4d6d;border-color:#ff4d6d}
+#lock .dots.bad{animation:shake .5s}
+@keyframes shake{20%,60%{transform:translateX(-12px)}40%,80%{transform:translateX(12px)}}
+#lock .pad{display:grid;grid-template-columns:repeat(3,72px);gap:14px;direction:ltr}
+#lock .pad button{height:72px;border-radius:50%;border:2px solid #ffffff99;background:#ffffff26;color:#fff;font-size:1.8rem;font-family:inherit;font-weight:500;cursor:pointer;
+  backdrop-filter:blur(4px);transition:.15s;-webkit-tap-highlight-color:transparent}
+#lock .pad button:active{background:#fff;color:var(--hot);transform:scale(.92)}
+#lock .pad .ghost{visibility:hidden}
+#lock .pad .del{font-size:1.4rem}
+#lock .msg{height:1.6em;margin-top:18px;font-size:1.1rem}
 </style>
 </head>
 <body>
+<div id="lock" dir="rtl">
+  <div class="icon" id="lockIcon">🔒</div>
+  <h1>האתר הזה נעול ♥</h1>
+  <p>הקישי את הקוד כדי להיכנס<br>(רמז: היום שבו הכל התחיל)</p>
+  <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
+  <div class="pad" id="pad">
+    <button>1</button><button>2</button><button>3</button>
+    <button>4</button><button>5</button><button>6</button>
+    <button>7</button><button>8</button><button>9</button>
+    <button class="ghost" tabindex="-1">0</button><button>0</button><button class="del" aria-label="מחיקה">⌫</button>
+  </div>
+  <div class="msg" id="lockMsg"></div>
+</div>
+
 
 <header class="hero">
   <span class="float" style="left:32%;font-size:19px;animation-duration:14.5s;animation-delay:-1.0s">♥</span><span class="float" style="left:54%;font-size:25px;animation-duration:8.6s;animation-delay:-7.1s">🦋</span><span class="float" style="left:4%;font-size:27px;animation-duration:8.7s;animation-delay:-1.3s">✦</span><span class="float" style="left:42%;font-size:39px;animation-duration:9.2s;animation-delay:-3.1s">💗</span><span class="float" style="left:63%;font-size:42px;animation-duration:13.8s;animation-delay:-5.6s">✨</span><span class="float" style="left:98%;font-size:15px;animation-duration:16.6s;animation-delay:-4.1s">🦋</span><span class="float" style="left:14%;font-size:18px;animation-duration:11.1s;animation-delay:-11.4s">♥</span><span class="float" style="left:18%;font-size:31px;animation-duration:14.4s;animation-delay:-5.2s">🦋</span><span class="float" style="left:55%;font-size:16px;animation-duration:8.6s;animation-delay:-2.9s">✦</span><span class="float" style="left:68%;font-size:27px;animation-duration:11.1s;animation-delay:-8.2s">💗</span><span class="float" style="left:45%;font-size:23px;animation-duration:15.9s;animation-delay:-9.8s">✨</span><span class="float" style="left:24%;font-size:31px;animation-duration:13.3s;animation-delay:-12.3s">🦋</span><span class="float" style="left:73%;font-size:23px;animation-duration:17.8s;animation-delay:-1.7s">♥</span><span class="float" style="left:42%;font-size:37px;animation-duration:9.5s;animation-delay:-6.8s">🦋</span><span class="float" style="left:4%;font-size:34px;animation-duration:15.6s;animation-delay:-8.0s">✦</span><span class="float" style="left:88%;font-size:23px;animation-duration:15.0s;animation-delay:-8.3s">💗</span><span class="float" style="left:58%;font-size:28px;animation-duration:16.4s;animation-delay:-13.2s">✨</span><span class="float" style="left:47%;font-size:34px;animation-duration:8.6s;animation-delay:-9.8s">🦋</span><span class="float" style="left:65%;font-size:44px;animation-duration:16.2s;animation-delay:-4.0s">♥</span><span class="float" style="left:39%;font-size:34px;animation-duration:8.2s;animation-delay:-6.5s">🦋</span><span class="float" style="left:17%;font-size:18px;animation-duration:8.6s;animation-delay:-10.8s">✦</span><span class="float" style="left:13%;font-size:21px;animation-duration:11.9s;animation-delay:-12.2s">💗</span><span class="float" style="left:8%;font-size:27px;animation-duration:13.5s;animation-delay:-12.4s">✨</span><span class="float" style="left:82%;font-size:40px;animation-duration:10.8s;animation-delay:-5.8s">🦋</span><span class="float" style="left:36%;font-size:41px;animation-duration:17.6s;animation-delay:-2.1s">♥</span><span class="float" style="left:18%;font-size:21px;animation-duration:10.3s;animation-delay:-6.8s">🦋</span>
@@ -232,6 +271,36 @@ try{
   document.querySelectorAll('.gift input').forEach(inp=>inp.addEventListener('change',()=>{
     if(inp.checked){chime();const r=inp.parentElement.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2);}}));
 }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  const CODE="1510"; let val="";
+  const dots=document.querySelectorAll('#dots i'), dotsBox=document.getElementById('dots'), msg=document.getElementById('lockMsg'), lock=document.getElementById('lock');
+  function beep(freqs){try{const A=window.AudioContext||window.webkitAudioContext,ac=beep.ac||(beep.ac=new A());if(ac.state==='suspended')ac.resume();const t=ac.currentTime;
+    freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;const d=t+i*.1;
+      g.gain.setValueAtTime(0,d);g.gain.linearRampToValueAtTime(.2,d+.02);g.gain.exponentialRampToValueAtTime(.001,d+.4);o.connect(g);g.connect(ac.destination);o.start(d);o.stop(d+.45);});}catch(e){}}
+  function render(){dots.forEach((d,i)=>d.classList.toggle('on',i<val.length));}
+  function press(k){
+    if(lock.classList.contains('gone')) return;
+    if(k==='del'){val=val.slice(0,-1);msg.textContent='';render();return;}
+    if(val.length>=CODE.length) return;
+    val+=k; render(); beep([700]);
+    if(val.length===CODE.length){
+      if(val===CODE){
+        msg.textContent='ברוכה הבאה, אהובה שלי ♥'; document.getElementById('lockIcon').textContent='🔓';
+        beep([523,659,784,1047]);
+        setTimeout(()=>{lock.classList.add('gone');document.documentElement.classList.remove('locked');window.scrollTo(0,0);},900);
+        setTimeout(()=>lock.remove(),1900);
+      }else{
+        dotsBox.classList.add('bad'); msg.textContent='הקוד לא נכון, נסי שוב 💔'; beep([220,180]);
+        setTimeout(()=>{dotsBox.classList.remove('bad');val='';render();},650);
+      }
+    }
+  }
+  document.getElementById('pad').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.classList.contains('ghost'))return;press(b.classList.contains('del')?'del':b.textContent);});
+  document.addEventListener('keydown',e=>{if(!document.documentElement.classList.contains('locked'))return;
+    if(/^[0-9]$/.test(e.key))press(e.key);else if(e.key==='Backspace')press('del');});
 })();
 </script>
 </body>
