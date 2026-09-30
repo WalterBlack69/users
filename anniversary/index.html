@@ -108,45 +108,97 @@ footer .big{color:var(--hot);font-size:3.4rem;animation:beat 1.2s infinite}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
 
 /* נעילה */
-#lock{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff;
-  background:radial-gradient(circle at 50% 20%,#ff8fcaaa,transparent 60%),linear-gradient(160deg,#ff2d95,#c2187a 60%,#7b1fa2);overflow:hidden;transition:opacity .9s,transform .9s}
-.locked #lock{display:flex}
-.locked header,.locked section,.locked footer{display:none}
+@property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
+#lock{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;overflow:hidden;color:#fff;font-family:'Rubik',sans-serif;touch-action:manipulation}
+.locked #lock,#lock.opening{display:flex}
 .locked body{overflow:hidden}
-#lock.gone{opacity:0;transform:scale(1.15);pointer-events:none}
-#lock .icon{font-size:4.5rem;line-height:1;animation:beat 1.6s infinite;margin-bottom:22px}
-#lock h1{font-size:clamp(1.9rem,7vw,2.8rem);line-height:1.2;text-shadow:3px 3px 0 #7b1fa2aa}
-#lock p{opacity:.9;margin:8px 0 22px;font-size:1.05rem}
-#lock .dots{display:flex;gap:16px;justify-content:center;margin-bottom:26px;direction:ltr}
-#lock .dots i{width:20px;height:20px;border-radius:50%;border:2px solid #fff;transition:.2s}
-#lock .dots i.on{background:#fff;transform:scale(1.15)}
-#lock .dots.bad i{background:#ff4d6d;border-color:#ff4d6d}
-#lock .dots.bad{animation:shake .5s}
+.locked header,.locked section,.locked footer{display:none}
+#lock .door{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(160deg,#1b0620,#3a0a40 45%,#5a0f5e);background-size:200% 100%;transition:transform 1.2s cubic-bezier(.7,0,.2,1);z-index:0}
+#lock .door.l{left:0;background-position:left}
+#lock .door.r{right:0;background-position:right}
+#lock .seam{position:absolute;top:0;bottom:0;left:50%;width:4px;margin-left:-2px;background:#fff;box-shadow:0 0 30px 10px #ff8fcb,0 0 90px 30px #ff2d95;opacity:0;z-index:1;transition:opacity .4s}
+#lock .fx{position:absolute;inset:0;width:100%;height:100%;z-index:2;transition:opacity .6s}
+#lock .aurora{position:absolute;inset:0;z-index:1;transition:opacity .6s;pointer-events:none}
+#lock .aurora b{position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(70px);opacity:.55;animation:drift 14s ease-in-out infinite alternate}
+#lock .aurora b:nth-child(1){background:#ff2d95;left:-25vmax;top:-20vmax}
+#lock .aurora b:nth-child(2){background:#8b3dff;right:-25vmax;top:10vmax;animation-delay:-5s;animation-duration:18s}
+#lock .aurora b:nth-child(3){background:#ff7ac0;left:5vmax;bottom:-35vmax;animation-delay:-9s;animation-duration:16s}
+@keyframes drift{to{transform:translate(12vmax,-8vmax) scale(1.2)}}
+#lock .panel{position:relative;z-index:3;width:min(92vw,360px);padding:26px 22px 22px;text-align:center;border-radius:34px;isolation:isolate;
+  background:#2a0630b8;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px #0008,0 0 60px #ff2d9555;
+  animation:panelIn .9s cubic-bezier(.2,1.3,.4,1) both;transition:opacity .5s,transform .8s}
+#lock .panel::before{content:"";position:absolute;inset:-2px;border-radius:36px;z-index:-1;
+  background:conic-gradient(from var(--a),#ff2d95,#8b3dff,#fff,#ff7ac0,#ff2d95);animation:spin 5s linear infinite}
+#lock .panel::after{content:"";position:absolute;inset:0;border-radius:34px;background:#2a0630;z-index:-1;opacity:.92}
+@keyframes spin{to{--a:360deg}}
+@keyframes panelIn{from{opacity:0;transform:translateY(40px) scale(.85)}}
+#lock .padlock{width:96px;height:112px;display:block;margin:0 auto 6px;overflow:visible;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 14px #ff2d95) drop-shadow(0 0 30px #ff2d9599)}
+@keyframes float{50%{transform:translateY(-6px)}}
+#lock .shackle{transition:transform .7s cubic-bezier(.3,1.6,.5,1);transform-origin:90px 62px}
+#lock.ok .shackle{transform:translateY(-18px) rotate(32deg)}
+#lock.ok .padlock{animation:none;filter:drop-shadow(0 0 20px #ffd54f) drop-shadow(0 0 50px #ffd54f)}
+#lock.bad .padlock{animation:jiggle .5s}
+@keyframes jiggle{20%{transform:rotate(-14deg)}40%{transform:rotate(12deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg)}}
+#lock h1{font-size:1.9rem;line-height:1.2;text-shadow:0 0 18px #ff2d95}
+#lock p{opacity:.85;margin:4px 0 18px}
+#lock .dots{display:flex;gap:14px;justify-content:center;margin-bottom:20px;direction:ltr;height:34px}
+#lock .dots i{width:30px;height:30px;border-radius:50%;border:2px solid #ffffffaa;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:0;transition:.25s}
+#lock .dots i.on{font-size:1.5rem;border-color:#ff8fcb;color:#ff5fae;text-shadow:0 0 12px #ff2d95;animation:pop .35s cubic-bezier(.3,2,.5,1)}
+@keyframes pop{from{transform:scale(0)}}
+#lock.bad .dots i{border-color:#ff4d6d;color:#ff4d6d}
+#lock.bad .dots{animation:shake .5s}
 @keyframes shake{20%,60%{transform:translateX(-12px)}40%,80%{transform:translateX(12px)}}
-#lock .pad{display:grid;grid-template-columns:repeat(3,72px);gap:14px;direction:ltr}
-#lock .pad button{height:72px;border-radius:50%;border:2px solid #ffffff99;background:#ffffff26;color:#fff;font-size:1.8rem;font-family:inherit;font-weight:500;cursor:pointer;
-  backdrop-filter:blur(4px);transition:.15s;-webkit-tap-highlight-color:transparent}
-#lock .pad button:active{background:#fff;color:var(--hot);transform:scale(.92)}
+#lock .pad{display:grid;grid-template-columns:repeat(3,68px);gap:12px;justify-content:center;direction:ltr}
+#lock .pad button{position:relative;overflow:hidden;height:68px;border-radius:50%;border:1.5px solid #ffffff55;background:linear-gradient(145deg,#ffffff2e,#ffffff0d);color:#fff;font-size:1.7rem;font-family:inherit;font-weight:500;cursor:pointer;
+  transition:transform .12s,box-shadow .2s,background .2s;-webkit-tap-highlight-color:transparent;box-shadow:inset 0 1px 0 #fff4}
+#lock .pad button:hover{box-shadow:0 0 22px #ff2d95aa,inset 0 1px 0 #fff4;background:linear-gradient(145deg,#ff2d9566,#ffffff14)}
+#lock .pad button:active{transform:scale(.88)}
+#lock .pad button.hit::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff,#ff2d95 50%,transparent 70%);animation:ripple .5s ease-out forwards}
+@keyframes ripple{from{transform:scale(0);opacity:.9}to{transform:scale(1.6);opacity:0}}
 #lock .pad .ghost{visibility:hidden}
-#lock .pad .del{font-size:1.4rem}
-#lock .msg{height:1.6em;margin-top:18px;font-size:1.1rem}
+#lock .pad .del{font-size:1.3rem}
+#lock .msg{height:1.6em;margin-top:14px;font-size:1.05rem;color:#ffd3ea}
+#lock .flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:5;pointer-events:none}
+#lock.ok .flash{animation:flash .9s ease-out}
+@keyframes flash{0%{opacity:.85}100%{opacity:0}}
+#lock.ok .panel{transform:scale(1.03)}
+#lock.open .panel,#lock.open .fx,#lock.open .aurora{opacity:0}
+#lock.open .panel{transform:scale(1.4)}
+#lock.open .door.l{transform:translateX(-101%)}
+#lock.open .door.r{transform:translateX(101%)}
+#lock.open .seam{opacity:1}
+#lock.gone .seam{opacity:0}
+@media (max-height:660px){#lock .padlock{width:64px;height:76px}#lock h1{font-size:1.5rem}#lock p{margin-bottom:10px}#lock .pad{grid-template-columns:repeat(3,58px);gap:9px}#lock .pad button{height:58px;font-size:1.5rem}#lock .dots{margin-bottom:12px}}
+@media (prefers-reduced-motion:reduce){#lock *{animation-duration:.01s!important}}
 </style>
 </head>
 <body>
 <div id="lock" dir="rtl">
-  <div class="icon" id="lockIcon">🔒</div>
-  <h1>האתר הזה נעול</h1>
-  <p>הקישי את הקוד כדי להיכנס</p>
-  <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
-  <div class="pad" id="pad">
-    <button>1</button><button>2</button><button>3</button>
-    <button>4</button><button>5</button><button>6</button>
-    <button>7</button><button>8</button><button>9</button>
-    <button class="ghost" tabindex="-1">0</button><button>0</button><button class="del" aria-label="מחיקה">⌫</button>
+  <div class="door l"></div><div class="door r"></div>
+  <div class="aurora"><b></b><b></b><b></b></div>
+  <canvas class="fx" id="lockFx"></canvas>
+  <div class="seam"></div>
+  <div class="panel">
+    <svg class="padlock" viewBox="0 0 120 140" aria-hidden="true">
+      <defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3f3"/><stop offset=".5" stop-color="#ff8fcb"/><stop offset="1" stop-color="#ff2d95"/></linearGradient></defs>
+      <g class="shackle"><path d="M30 62V42a30 30 0 0 1 60 0v20" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></g>
+      <rect x="14" y="58" width="92" height="74" rx="18" fill="url(#gb)"/>
+      <path d="M22 70q0-6 8-6h60" stroke="#fff9" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="88" r="10" fill="#4a0a3a"/><rect x="56" y="90" width="8" height="22" rx="4" fill="#4a0a3a"/>
+    </svg>
+    <h1>האתר הזה נעול</h1>
+    <p>הקישי את הקוד כדי להיכנס</p>
+    <div class="dots" id="dots"><i>♥</i><i>♥</i><i>♥</i><i>♥</i></div>
+    <div class="pad" id="pad">
+      <button>1</button><button>2</button><button>3</button>
+      <button>4</button><button>5</button><button>6</button>
+      <button>7</button><button>8</button><button>9</button>
+      <button class="ghost" tabindex="-1">0</button><button>0</button><button class="del" aria-label="מחיקה">⌫</button>
+    </div>
+    <div class="msg" id="lockMsg"></div>
   </div>
-  <div class="msg" id="lockMsg"></div>
+  <div class="flash"></div>
 </div>
-
 
 <header class="hero">
   <span class="float" style="left:32%;font-size:19px;animation-duration:14.5s;animation-delay:-1.0s">♥</span><span class="float" style="left:54%;font-size:25px;animation-duration:8.6s;animation-delay:-7.1s">🦋</span><span class="float" style="left:4%;font-size:27px;animation-duration:8.7s;animation-delay:-1.3s">✦</span><span class="float" style="left:42%;font-size:39px;animation-duration:9.2s;animation-delay:-3.1s">💗</span><span class="float" style="left:63%;font-size:42px;animation-duration:13.8s;animation-delay:-5.6s">✨</span><span class="float" style="left:98%;font-size:15px;animation-duration:16.6s;animation-delay:-4.1s">🦋</span><span class="float" style="left:14%;font-size:18px;animation-duration:11.1s;animation-delay:-11.4s">♥</span><span class="float" style="left:18%;font-size:31px;animation-duration:14.4s;animation-delay:-5.2s">🦋</span><span class="float" style="left:55%;font-size:16px;animation-duration:8.6s;animation-delay:-2.9s">✦</span><span class="float" style="left:68%;font-size:27px;animation-duration:11.1s;animation-delay:-8.2s">💗</span><span class="float" style="left:45%;font-size:23px;animation-duration:15.9s;animation-delay:-9.8s">✨</span><span class="float" style="left:24%;font-size:31px;animation-duration:13.3s;animation-delay:-12.3s">🦋</span><span class="float" style="left:73%;font-size:23px;animation-duration:17.8s;animation-delay:-1.7s">♥</span><span class="float" style="left:42%;font-size:37px;animation-duration:9.5s;animation-delay:-6.8s">🦋</span><span class="float" style="left:4%;font-size:34px;animation-duration:15.6s;animation-delay:-8.0s">✦</span><span class="float" style="left:88%;font-size:23px;animation-duration:15.0s;animation-delay:-8.3s">💗</span><span class="float" style="left:58%;font-size:28px;animation-duration:16.4s;animation-delay:-13.2s">✨</span><span class="float" style="left:47%;font-size:34px;animation-duration:8.6s;animation-delay:-9.8s">🦋</span><span class="float" style="left:65%;font-size:44px;animation-duration:16.2s;animation-delay:-4.0s">♥</span><span class="float" style="left:39%;font-size:34px;animation-duration:8.2s;animation-delay:-6.5s">🦋</span><span class="float" style="left:17%;font-size:18px;animation-duration:8.6s;animation-delay:-10.8s">✦</span><span class="float" style="left:13%;font-size:21px;animation-duration:11.9s;animation-delay:-12.2s">💗</span><span class="float" style="left:8%;font-size:27px;animation-duration:13.5s;animation-delay:-12.4s">✨</span><span class="float" style="left:82%;font-size:40px;animation-duration:10.8s;animation-delay:-5.8s">🦋</span><span class="float" style="left:36%;font-size:41px;animation-duration:17.6s;animation-delay:-2.1s">♥</span><span class="float" style="left:18%;font-size:21px;animation-duration:10.3s;animation-delay:-6.8s">🦋</span>
@@ -276,31 +328,67 @@ try{
 <script>
 (function(){
   const CODE="1510"; let val="";
-  const dots=document.querySelectorAll('#dots i'), dotsBox=document.getElementById('dots'), msg=document.getElementById('lockMsg'), lock=document.getElementById('lock');
-  function beep(freqs){try{const A=window.AudioContext||window.webkitAudioContext,ac=beep.ac||(beep.ac=new A());if(ac.state==='suspended')ac.resume();const t=ac.currentTime;
-    freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;const d=t+i*.1;
-      g.gain.setValueAtTime(0,d);g.gain.linearRampToValueAtTime(.2,d+.02);g.gain.exponentialRampToValueAtTime(.001,d+.4);o.connect(g);g.connect(ac.destination);o.start(d);o.stop(d+.45);});}catch(e){}}
-  function render(){dots.forEach((d,i)=>d.classList.toggle('on',i<val.length));}
-  function press(k){
-    if(lock.classList.contains('gone')) return;
-    if(k==='del'){val=val.slice(0,-1);msg.textContent='';render();return;}
-    if(val.length>=CODE.length) return;
-    val+=k; render(); beep([700]);
-    if(val.length===CODE.length){
-      if(val===CODE){
-        msg.textContent='ברוכה הבאה, אהובה שלי ♥'; document.getElementById('lockIcon').textContent='🔓';
-        beep([523,659,784,1047]);
-        setTimeout(()=>{lock.classList.add('gone');document.documentElement.classList.remove('locked');window.scrollTo(0,0);},900);
-        setTimeout(()=>lock.remove(),1900);
-      }else{
-        dotsBox.classList.add('bad'); msg.textContent='הקוד לא נכון, נסי שוב 💔'; beep([220,180]);
-        setTimeout(()=>{dotsBox.classList.remove('bad');val='';render();},650);
-      }
-    }
+  const lock=document.getElementById('lock'), dots=document.querySelectorAll('#dots i'), msg=document.getElementById('lockMsg');
+  const cv=document.getElementById('lockFx'), cx=cv.getContext('2d'); let W,H,parts=[],raf,running=true,ptr=null;
+  const vib=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+
+  /* ---- צליל ---- */
+  let ac; function A(){try{const C=window.AudioContext||window.webkitAudioContext;ac=ac||new C();if(ac.state==='suspended')ac.resume();return ac}catch(e){return null}}
+  function tone(f,d,t0,type,vol,slide){const c=A();if(!c)return;const t=c.currentTime+(t0||0),o=c.createOscillator(),g=c.createGain();
+    o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||.2,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.05);}
+  const NOTES=[523,587,659,698,784,880,988,1047,1175,1319];
+  const sKey=k=>{tone(NOTES[k],.28,0,'triangle',.18);tone(NOTES[k]*2,.15,0,'sine',.05)};
+  const sBad=()=>{tone(200,.35,0,'sawtooth',.18,80);tone(150,.35,.12,'sawtooth',.15,60)};
+  const sOk=()=>{tone(120,.2,0,'square',.25,50);[523,659,784,1047,1319,1568].forEach((f,i)=>{tone(f,.6,.18+i*.09,'triangle',.2);tone(f*2,.4,.18+i*.09,'sine',.06)})};
+
+  /* ---- חלקיקים ---- */
+  const COLS=['#ff2d95','#ff7ac0','#ffd3ea','#c8a2ff','#ffffff','#ffd54f'], SH=['♥','♥','✦','✧','🦋'];
+  function size(){const r=devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*r;cv.height=H*r;cx.setTransform(r,0,0,r,0,0)}
+  function ambient(){return {x:Math.random()*W,y:H+20,vx:(Math.random()-.5)*.4,vy:-(.4+Math.random()*1),s:10+Math.random()*22,c:COLS[Math.random()*6|0],ch:SH[Math.random()*SH.length|0],a:.25+Math.random()*.4,r:Math.random()*6,vr:(Math.random()-.5)*.02,g:0,life:1e9,amb:1}}
+  function burst(x,y,n){for(let i=0;i<n;i++){const an=Math.random()*6.283,sp=3+Math.random()*13;
+    parts.push({x,y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-3,s:10+Math.random()*24,c:COLS[Math.random()*6|0],ch:SH[Math.random()*4|0],a:1,r:Math.random()*6,vr:(Math.random()-.5)*.3,g:.28,life:70+Math.random()*60})}}
+  function trail(x,y){parts.push({x,y,vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*1.5-.5,s:8+Math.random()*10,c:COLS[Math.random()*6|0],ch:'✦',a:.9,r:0,vr:.05,g:.02,life:35})}
+  size();addEventListener('resize',size);for(let i=0;i<34;i++){const p=ambient();p.y=Math.random()*H;parts.push(p)}
+  function loop(){
+    if(!running)return; cx.clearRect(0,0,W,H);
+    if(parts.filter(p=>p.amb).length<34&&Math.random()<.15)parts.push(ambient());
+    parts=parts.filter(p=>{
+      p.life--;p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      if(!p.amb)p.a*=.985; if(p.amb&&p.y<-30)return false; if(p.life<=0||p.a<.03)return false;
+      cx.save();cx.globalAlpha=Math.min(1,p.a);cx.translate(p.x,p.y);cx.rotate(p.r);cx.font=p.s+'px sans-serif';cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=12;cx.textAlign='center';cx.fillText(p.ch,0,0);cx.restore();return true});
+    raf=requestAnimationFrame(loop);
   }
-  document.getElementById('pad').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.classList.contains('ghost'))return;press(b.classList.contains('del')?'del':b.textContent);});
+  loop();
+  lock.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||e.buttons||e.pointerType==='touch')trail(e.clientX,e.clientY)});
+
+  /* ---- קוד ---- */
+  function render(){dots.forEach((d,i)=>d.classList.toggle('on',i<val.length))}
+  function hit(btn){btn.classList.remove('hit');void btn.offsetWidth;btn.classList.add('hit')}
+  function press(k,btn){
+    if(lock.classList.contains('ok'))return;
+    if(btn)hit(btn);
+    if(k==='del'){val=val.slice(0,-1);msg.textContent='';render();vib(8);tone(330,.1,0,'sine',.1);return}
+    if(val.length>=CODE.length)return;
+    val+=k;render();sKey(+k);vib(10);
+    if(val.length===CODE.length){val===CODE?success():fail()}
+  }
+  function fail(){
+    lock.classList.add('bad');msg.textContent='הקוד לא נכון, נסי שוב 💔';sBad();vib([80,40,80]);
+    setTimeout(()=>{lock.classList.remove('bad');val='';render()},650);
+  }
+  function success(){
+    lock.classList.add('ok','opening');msg.textContent='ברוכה הבאה, אהובה שלי ♥';sOk();vib([30,50,30,50,150]);
+    const r=document.querySelector('#lock .padlock').getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height/2,170);setTimeout(()=>burst(W*.2,H*.6,60),350);setTimeout(()=>burst(W*.8,H*.6,60),550);
+    setTimeout(()=>{document.documentElement.classList.remove('locked');window.scrollTo(0,0);lock.classList.add('open');tone(180,.9,0,'sawtooth',.06,700)},1500);
+    setTimeout(()=>{lock.classList.add('gone');running=false;cancelAnimationFrame(raf)},2900);
+    setTimeout(()=>lock.remove(),3300);
+  }
+  document.getElementById('pad').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.classList.contains('ghost'))return;press(b.classList.contains('del')?'del':b.textContent,b)});
   document.addEventListener('keydown',e=>{if(!document.documentElement.classList.contains('locked'))return;
-    if(/^[0-9]$/.test(e.key))press(e.key);else if(e.key==='Backspace')press('del');});
+    if(/^[0-9]$/.test(e.key)){const b=[...document.querySelectorAll('#pad button:not(.ghost)')].find(x=>x.textContent===e.key);press(e.key,b)}else if(e.key==='Backspace')press('del',document.querySelector('#pad .del'))});
 })();
 </script>
 </body>
