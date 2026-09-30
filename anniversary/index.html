@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>שנה ביחד ♥ רון וטליה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js')</script>
 <style>
 :root{
   --hot:#ff2d95; --pink:#ff6fb5; --soft:#ffd3ea; --blush:#fff0f8; --lilac:#c8a2ff; --deep:#5a0f3d; --ink:#3d0a29;
@@ -51,7 +50,7 @@ h2{font-size:clamp(2rem,6vw,3.2rem);color:var(--hot);line-height:1.2;margin-bott
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:36px;margin-top:44px}
 .polaroid{background:#fff;padding:14px 14px 10px;box-shadow:0 14px 34px #ff2d9535;transition:.4s;position:relative}
-.js .polaroid{cursor:zoom-in}
+.polaroid{cursor:zoom-in}
 .polaroid::before{content:"";position:absolute;top:-14px;left:50%;width:90px;height:28px;margin-left:-45px;background:#ff6fb5aa;transform:rotate(-4deg)}
 .polaroid:nth-child(odd){transform:rotate(-3deg)}
 .polaroid:nth-child(even){transform:rotate(3deg)}
@@ -80,8 +79,6 @@ footer{padding:70px 20px 90px;text-align:center;font-size:1.5rem;color:var(--dee
 footer .big{color:var(--hot);font-size:3.4rem;animation:beat 1.2s infinite}
 @keyframes beat{50%{transform:scale(1.25)}}
 
-.js .reveal{opacity:0;transform:translateY(40px);transition:1s}
-.js .reveal.in{opacity:1;transform:none}
 
 /* gifts */
 .gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:56px 34px;margin-top:50px}
@@ -191,16 +188,7 @@ footer .big{color:var(--hot);font-size:3.4rem;animation:beat 1.2s infinite}
 
 <!-- תוספות (לא חובה לתצוגה): מונה חי, הגדלת תמונות, קונפטי והופעה בגלילה -->
 <script>
-try{
-  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')); // ברירת מחדל: הכל גלוי
-}catch(e){}
-</script>
-<script>
 (function(){
-try{
-  const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(el=>{el.classList.remove('in');io.observe(el);});
-}catch(e){document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));}
 try{
   const lb=document.getElementById('lb');lb.onclick=()=>lb.classList.remove('on');
   document.querySelectorAll('.polaroid img').forEach(i=>i.onclick=()=>{lb.querySelector('img').src=i.src;lb.classList.add('on');});
