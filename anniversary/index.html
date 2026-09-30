@@ -111,6 +111,8 @@ h2::after{content:"♥";display:block;color:var(--hot);font-size:1.1rem;margin-t
 .lovebtn{position:relative;margin:34px auto 0;width:150px;height:150px;border:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8fcb,#ff2d95 60%,#a0136b);color:#fff;font-size:4.6rem;cursor:pointer;
   box-shadow:0 0 50px #ff2d95aa,0 0 100px #ff2d9566,inset 0 -8px 20px #0004,inset 0 6px 14px #fff5;animation:beat2 1.5s infinite;-webkit-tap-highlight-color:transparent;will-change:transform}
 .lovebtn:active{transform:scale(.9);animation:none}
+.lovemsg.six{font-size:3rem;color:#fff;animation:six .35s ease-in-out infinite alternate}
+@keyframes six{from{transform:translateY(-8px) rotate(-3deg)}to{transform:translateY(8px) rotate(3deg)}}
 .lovecount{margin-top:22px;font-size:1.6rem;color:var(--soft)}
 .lovecount b{color:#fff;font-size:2.2rem;text-shadow:0 0 16px #ff2d95}
 .lovemsg{min-height:2.4rem;font-size:2.2rem;color:var(--pink);text-shadow:0 0 16px #ff2d9599;margin-top:4px}
@@ -366,9 +368,9 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   <p class="sub rv" style="--d:.1s">וכל רגע איתך הוא המתנה שלי</p>
   <div class="counter rv" style="--d:.2s" data-start="2025-10-15">
     <div class="tile"><b id="cDays">350</b><span>ימים</span></div>
-    <div class="tile"><b id="cHours">8,412</b><span>שעות</span></div>
-    <div class="tile"><b id="cMin">504,779</b><span>דקות</span></div>
-    <div class="tile" id="tSec"><b id="cSec">30,286,744</b><span>שניות</span></div>
+    <div class="tile"><b id="cHours">8,413</b><span>שעות</span></div>
+    <div class="tile"><b id="cMin">504,790</b><span>דקות</span></div>
+    <div class="tile" id="tSec"><b id="cSec">30,287,434</b><span>שניות</span></div>
   </div>
   <div class="bar rv" style="--d:.3s" id="yearBar">
     <div class="track"><div class="fill" id="barFill" style="--w:96.0%"></div></div>
@@ -529,11 +531,20 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1))});
 
   /* ---- כפתור הלב ---- */
-  let love=0; const MSG={1:'קיבלתי, ואני מאוהב בך 💗',10:'עוד! אני לא מפסיק לחייך 😍',25:'את יודעת שאני מאוהב בך עד מעל הראש, נכון?',50:'הלב שלי מלא בגללך ♥',75:'את משגעת אותי 🥰',100:'מאה! את הכל בשבילי 🔥',150:'אני הבן אדם הכי בר מזל בעולם 🍀',200:'עד השמיים ובחזרה 🚀'};
+  let love=0, prevMsg='', six=false;
+  const MSG={1:'קיבלתי, ואני מאוהב בך 💗',5:'את יודעת שאני כבר מחייך? 😊',10:'עוד! אני לא מפסיק לחייך 😍',15:'הלב שלי עושה קפיצות 💓',20:'וואו, כמה אהבה! 🥹',25:'את יודעת שאני מאוהב בך עד מעל הראש, נכון?',
+    30:'אני מרגיש את זה ממש מכאן 🥰',35:'אמרתי לך שאת הכי? 😘',40:'מי אמר שאי אפשר לאהוב עוד? 💞',45:'את חיסלת אותי סופית 😵‍💫',50:'הלב שלי מלא בגללך ♥',55:'אני הבן אדם הכי מאושר עכשיו 🌈',60:'תמשיכי, אני לא מתלונן 😏',
+    75:'את משגעת אותי 🥰',80:'אני מאוהב בך יותר מהבוקר 🫶',85:'שנה איתך ואני עדיין רוצה עוד ✨',90:'כל לחיצה כזאת שווה לי עולם 🌍',95:'כמעט מאה, ואני כולי שלך 💘',100:'מאה! את הכל בשבילי 🔥',
+    110:'נשבע לך, לא נמאס לי לרגע 😂',120:'את הכי מתוקה בעולם 🍭',130:'לא נעים לי, אבל אני רוצה עוד 😄',140:'אני מאוהב בך עד אינסוף ♾️',150:'אני הבן אדם הכי בר מזל בעולם 🍀',
+    160:'את יודעת שאת הכי יפה? כי את הכי יפה 👑',170:'עוד קצת ואני מתאהב מחדש 😍',180:'תמשיכי לשלוח, אני אוסף הכל 💌',190:'לב אחד לא מספיק לכל האהבה הזאת 💗',200:'עד השמיים ובחזרה 🚀'};
+  const POOL=['את הסיבה שאני מחייך בבוקר ☀️','איתך הכל פשוט יותר 🫶','אני שלך, בלי תנאים 💗','את הבית שלי 🏡','שום דבר לא מנצח אותך 🏆','אהבה שלי, את לא יודעת כמה 🥺','את כל מה שביקשתי ועוד 🎁','נשארתי בלי מילים, רק לבבות 💞','עוד לב בשבילך ♥','אני חייב להגיד: את מדהימה ✨','את הכי מיוחדת 🌸','תודה שאת שלי 🥹'];
   $('#loveBtn').addEventListener('click',e=>{
-    love++;$('#loveN').textContent=nf(love);const r=e.currentTarget.getBoundingClientRect();
+    love++;$('#loveN').textContent=nf(love);const r=e.currentTarget.getBoundingClientRect(),msg=$('#loveMsg');
     burst(r.left+r.width/2,r.top+r.height/2,10+Math.min(love,10),.9);tone(440+Math.min(love,60)*12,.25,0,'triangle',.16);vib(12);
-    if(MSG[love])$('#loveMsg').textContent=MSG[love];
+    if(six){six=false;msg.classList.remove('six');msg.textContent=prevMsg}   // הלחיצה שאחרי 67 מחזירה את הכיתוב הקודם
+    const isSix=love%100===67&&love<=267;
+    if(isSix){prevMsg=msg.textContent;six=true;msg.textContent='סיקס סבןןןןן';msg.classList.add('six');tone(220,.18,0,'square',.12);tone(330,.18,.18,'square',.12);burst(innerWidth/2,r.top,30,1)}
+    else{const m=MSG[love]||(love>200&&love%10===0?POOL[(love/10)%POOL.length]:'');if(m)msg.textContent=m}
     if(love%25===0){burst(innerWidth/2,innerHeight/2,50,1.4);chime()}
   });
 
