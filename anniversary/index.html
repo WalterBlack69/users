@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#16031c">
 <title>שנה ביחד ♥ רון וטליה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('locked');(function(){var t=new Date(2026,9,15),n=new Date(),d=new Date(n.getFullYear(),n.getMonth(),n.getDate());if(Math.round((t-d)/864e5)>0)document.documentElement.classList.add('gated')})()</script>
+<script>(function(){var cl=document.documentElement.classList;cl.add('locked');var t=new Date(2026,9,15),n=new Date(),d=new Date(n.getFullYear(),n.getMonth(),n.getDate()),days=Math.round((t-d)/864e5),seen=false;try{seen=!!localStorage.getItem('finaleSeen')}catch(e){}
+if(days>0)cl.add('gated');else if(!seen){cl.add('gated');cl.add('ready')}})()</script>
 <style>
 :root{--hot:#ff2d95;--pink:#ff7ac0;--soft:#ffd3ea;--lilac:#b58cff;--bg:#16031c;--deep:#3d0a29;--line:#ffffff2e}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -237,6 +238,46 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
 #gate .tiles span{font-size:.8rem;opacity:.8}
 #gate .gfoot{margin-top:14px;font-size:1.05rem;color:#ffd3ea;opacity:.85}
 @media (max-height:700px){#gate .crown{font-size:3rem}#gate .ring{width:150px;height:150px}#gate .ring .num{font-size:3rem}#gate .gpanel{padding:16px 16px 16px}#gate .tiles{margin-top:8px}}
+
+/* ===== הסיום הגדול: ספירה לאחור, פיצוץ, מעבר ===== */
+#gate #gFx{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
+#gate .gsnd{margin-top:12px;border:1px solid #ffffff55;background:#ffffff1a;color:#fff;border-radius:999px;padding:7px 16px;font-family:inherit;font-size:.95rem;cursor:pointer;animation:sndPulse 2.2s infinite;-webkit-tap-highlight-color:transparent}
+#gate .gsnd.on{animation:none;border-color:#ff7ac0;box-shadow:0 0 16px #ff2d9599}
+@keyframes sndPulse{50%{box-shadow:0 0 0 8px #ff2d9533}}
+#gate .gogo{display:none;margin:22px auto 6px;width:170px;height:170px;border:0;border-radius:50%;cursor:pointer;color:#fff;font-family:inherit;font-size:1.5rem;font-weight:800;
+  background:radial-gradient(circle at 35% 30%,#ff8fcb,#ff2d95 60%,#a0136b);box-shadow:0 0 50px #ff2d95aa,0 0 110px #ff2d9566,inset 0 -8px 20px #0004,inset 0 6px 14px #fff5;animation:beat2 1.3s infinite;-webkit-tap-highlight-color:transparent}
+#gate .gogo b{display:block;font-size:2.8rem;line-height:1}
+.ready #gate .ring,.ready #gate .tiles,.ready #gate .gsnd,.ready #gate .gfoot{display:none}
+.ready #gate .gogo{display:block}
+@keyframes beat2{0%,40%,100%{transform:scale(1)}15%{transform:scale(1.14)}30%{transform:scale(.97)}}
+#gFin{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;flex-direction:column;pointer-events:none;text-align:center}
+#gate.final #gFin{display:flex}
+#gate.final .gpanel{animation:gpOut .7s cubic-bezier(.6,0,.9,.3) forwards}
+@keyframes gpOut{to{transform:scale(.25) rotate(-8deg);opacity:0}}
+#gate.final .aurora b{animation-duration:2.2s}
+#gate.final::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle,transparent 40%,#ff2d95d9 120%);animation:vig 1s infinite}
+@keyframes vig{50%{opacity:.35}}
+#gFin .big{font-size:min(48vw,270px);font-weight:900;line-height:1;color:#fff;text-shadow:0 0 30px #ff2d95,0 0 80px #ff2d95,0 0 170px #ff7ac0;font-variant-numeric:tabular-nums}
+#gFin .big.slam{animation:slam .9s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes slam{0%{transform:scale(3.6);opacity:0;filter:blur(16px)}35%{opacity:1;filter:none}70%{transform:scale(.92)}100%{transform:scale(1)}}
+#gFin .word{font-size:clamp(2.6rem,14vw,5.4rem);font-weight:900;line-height:1.1;color:#fff;text-shadow:0 0 24px #ff2d95,0 0 70px #ff2d95,0 0 140px #ff7ac0;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .3em;direction:rtl}
+#gFin .word span{display:inline-block;animation:letPop .8s cubic-bezier(.2,1.7,.4,1) both;animation-delay:calc(var(--i)*.07s)}
+@keyframes letPop{0%{transform:translateY(80px) scale(.2) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
+#gFin .sub2{margin-top:16px;font-size:1.5rem;color:#ffd3ea;text-shadow:0 0 20px #ff2d95;animation:fadeUp2 1s .9s both}
+@keyframes fadeUp2{from{opacity:0;transform:translateY(20px)}}
+#gate .shock{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;border:5px solid #fff;box-shadow:0 0 30px #ff2d95,inset 0 0 30px #ff2d95;z-index:5;pointer-events:none;animation:shockw 1s ease-out forwards}
+@keyframes shockw{from{transform:scale(.3);opacity:1}to{transform:scale(14);opacity:0}}
+#gate .flashw{position:absolute;inset:0;background:#fff;z-index:9;opacity:0;pointer-events:none}
+#gate .flashw.go{animation:flw 1.1s ease-out}
+@keyframes flw{0%{opacity:1}100%{opacity:0}}
+#gate.shake{animation:shk .45s}
+#gate.shake2{animation:shk2 .9s}
+@keyframes shk{20%{transform:translate(-5px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-4px,-3px)}80%{transform:translate(4px,4px)}}
+@keyframes shk2{10%{transform:translate(-16px,10px) rotate(-.6deg)}25%{transform:translate(16px,-12px) rotate(.6deg)}40%{transform:translate(-12px,-10px)}55%{transform:translate(12px,10px)}70%{transform:translate(-7px,6px)}85%{transform:translate(6px,-5px)}}
+#gate.iris{display:flex;animation:iris 1.4s cubic-bezier(.75,0,.9,.35) forwards;pointer-events:none}
+@keyframes iris{0%{clip-path:circle(150% at 50% 50%)}100%{clip-path:circle(0% at 50% 50%)}}
+#gate.iris #gFin{animation:zoomOut 1.3s ease-in forwards}
+@keyframes zoomOut{to{transform:scale(7);opacity:0}}
 </style>
 </head>
 <body>
@@ -288,8 +329,8 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   <span class="fl" style="left:9%;font-size:25px;animation-duration:18.6s;animation-delay:-12.1s">✧</span>
   <div class="gpanel">
     <button class="crown" id="gCrown" aria-label="כתר">👑</button>
-    <h1 class="gtitle" aria-label="הקדמתתתת"><span style="--i:0">ה</span><span style="--i:1">ק</span><span style="--i:2">ד</span><span style="--i:3">מ</span><span style="--i:4">ת</span><span style="--i:5">ת</span><span style="--i:6">ת</span><span style="--i:7">ת</span></h1>
-    <p class="gsub">קצת סבלנות נסיכה</p>
+    <h1 class="gtitle" id="gTitle" aria-label="הקדמתתתת"><span style="--i:0">ה</span><span style="--i:1">ק</span><span style="--i:2">ד</span><span style="--i:3">מ</span><span style="--i:4">ת</span><span style="--i:5">ת</span><span style="--i:6">ת</span><span style="--i:7">ת</span></h1>
+    <p class="gsub" id="gSub">קצת סבלנות נסיכה</p>
     <p class="gline" id="gWhen">תוכלי להיכנס רק בעוד</p>
     <div class="ring">
       <svg viewBox="0 0 160 160" aria-hidden="true"><defs><linearGradient id="gGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2d95"/><stop offset=".6" stop-color="#ff7ac0"/><stop offset="1" stop-color="#b58cff"/></linearGradient></defs>
@@ -297,9 +338,14 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
         <circle class="arc" id="gArc" cx="80" cy="80" r="70" fill="none" stroke-width="10" stroke-dasharray="439.8" stroke-dashoffset="439.8"/></svg>
       <div class="mid"><div class="num" id="gNum">0</div><div class="unit" id="gUnit">ימים</div></div>
     </div>
+    <button class="gogo" id="gGo"><b>♥</b>לחצי כאן</button>
     <div class="tiles"><div><b id="gH">0</b><span>שעות</span></div><div><b id="gM">0</b><span>דקות</span></div><div><b id="gS">0</b><span>שניות</span></div></div>
+    <button class="gsnd" id="gSnd">🔊 הפעילי סאונד</button>
     <p class="gfoot">15.10.2026 ♥</p>
   </div>
+  <canvas id="gFx"></canvas>
+  <div id="gFin"><div class="big" id="gBig"></div></div>
+  <div class="flashw" id="gFlash"></div>
 </div>
 
 <div class="bgfx"><b></b><b></b><b></b></div>
@@ -321,8 +367,8 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
   <div class="counter rv" style="--d:.2s" data-start="2025-10-15">
     <div class="tile"><b id="cDays">350</b><span>ימים</span></div>
     <div class="tile"><b id="cHours">8,412</b><span>שעות</span></div>
-    <div class="tile"><b id="cMin">504,750</b><span>דקות</span></div>
-    <div class="tile" id="tSec"><b id="cSec">30,285,027</b><span>שניות</span></div>
+    <div class="tile"><b id="cMin">504,779</b><span>דקות</span></div>
+    <div class="tile" id="tSec"><b id="cSec">30,286,744</b><span>שניות</span></div>
   </div>
   <div class="bar rv" style="--d:.3s" id="yearBar">
     <div class="track"><div class="fill" id="barFill" style="--w:96.0%"></div></div>
@@ -468,14 +514,14 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
 
   /* ---- גלריה + תצוגה מוגדלת ---- */
   const pol=$$('.polaroid'), lb=$('#lb'), lbImg=$('#lb img'), lbCap=$('#lb .lbcap'); let cur=0;
-  function show(i){cur=(i+pol.length)%pol.length;lbImg.src=pol[cur].querySelector('img').src;lbCap.textContent=pol[cur].querySelector('figcaption').textContent;lb.classList.add('on')}
+  function show(i){tone(700+((i%3)*120),.14,0,'triangle',.12);cur=(i+pol.length)%pol.length;lbImg.src=pol[cur].querySelector('img').src;lbCap.textContent=pol[cur].querySelector('figcaption').textContent;lb.classList.add('on')}
   pol.forEach((p,i)=>{
     p.addEventListener('click',()=>show(i));
     p.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=p.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
       p.style.setProperty('--ry',((x-.5)*16)+'deg');p.style.setProperty('--rx',((.5-y)*16)+'deg');p.style.setProperty('--gx',x*100+'%');p.style.setProperty('--gy',y*100+'%');p.style.setProperty('--go',1)});
     p.addEventListener('pointerleave',()=>{p.style.setProperty('--rx','0deg');p.style.setProperty('--ry','0deg');p.style.setProperty('--go',0)});
   });
-  $('#lb .lbx').onclick=e=>{e.stopPropagation();lb.classList.remove('on')};
+  $('#lb .lbx').onclick=e=>{e.stopPropagation();tone(420,.12,0,'triangle',.1);lb.classList.remove('on')};
   $('#lb .prev').onclick=e=>{e.stopPropagation();show(cur-1)};$('#lb .next').onclick=e=>{e.stopPropagation();show(cur+1)};
   lb.addEventListener('click',e=>{if(e.target===lb||e.target===lbImg)lb.classList.remove('on')});
   document.addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')show(cur+1);if(e.key==='ArrowRight')show(cur-1)});
@@ -573,12 +619,98 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
 (function(){
   var root=document.documentElement; if(!root.classList.contains('gated'))return;
   var T=new Date(2026,9,15).getTime(), $=function(i){return document.getElementById(i)}, nf=function(n){return n.toLocaleString('he-IL')};
-  var num=$('gNum'),unit=$('gUnit'),when=$('gWhen'),arc=$('gArc'),CIRC=439.8,shown=-1,opening=false,firstPaint=true;
-  function open(){if(opening)return;opening=true;$('gate').classList.add('out');setTimeout(function(){root.classList.remove('gated');window.scrollTo(0,0)},700)}
-  function tone(f,d,t0){try{var C=window.AudioContext||window.webkitAudioContext,ac=tone.ac||(tone.ac=new C());if(ac.state==='suspended')ac.resume();var t=ac.currentTime+(t0||0),o=ac.createOscillator(),g=ac.createGain();
-    o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.05)}catch(e){}}
+  var gate=$('gate'), ready=root.classList.contains('ready'), running=false, CIRC=439.8, shown=-1, firstPaint=true, timer=0;
+
+  /* ---------- סאונד (נוצר בקוד; מתנגן רק אחרי לחיצה של המשתמשת) ---------- */
+  var ac=null, nb=null;
+  function A(){try{var C=window.AudioContext||window.webkitAudioContext;ac=ac||new C();if(ac.state==='suspended')ac.resume();return ac}catch(e){return null}}
+  function live(){return ac&&ac.state==='running'}
+  function tone(f,d,t0,type,vol,slide,att){if(!live())return;var t=ac.currentTime+(t0||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
+    g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(vol||.2,t+(att||.015));g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.05)}
+  function noise(d,t0,f0,f1,vol,type,q){if(!live())return;if(!nb){nb=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate);var a=nb.getChannelData(0);for(var i=0;i<a.length;i++)a[i]=Math.random()*2-1}
+    var t=ac.currentTime+(t0||0),s=ac.createBufferSource(),fl=ac.createBiquadFilter(),g=ac.createGain();s.buffer=nb;fl.type=type||'bandpass';fl.Q.value=q||1;fl.frequency.setValueAtTime(f0,t);fl.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+d);
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(fl);fl.connect(g);g.connect(ac.destination);s.start(t);s.stop(t+d)}
+  var sTick=function(){tone(2400,.03,0,'square',.03)};
+  var sTap=function(k){tone(480+k*90,.25,0,'triangle',.18);tone(960+k*180,.15,0,'sine',.05)};
+  var sThump=function(n,tot){tone(110,.3,0,'sine',.6,42);tone(620+(tot-n)*95,.2,0,'triangle',.16);noise(.1,0,3500,400,.14,'highpass');if(n<=3){tone(1300+(3-n)*350,.09,.14,'square',.07);tone(1300+(3-n)*350,.09,.3,'square',.07)}};
+  var sRiser=function(d){tone(160,d,0,'sawtooth',.07,2000,d*.95);noise(d,0,300,7000,.16,'bandpass',1.2)};
+  var sBoom=function(){tone(95,1.7,0,'sine',.95,26);tone(58,2.3,0,'sine',.75,24);noise(1.7,0,4200,70,.75,'lowpass',.7);noise(.35,0,9000,600,.5,'highpass')};
+  var sPop=function(){var f=700+Math.random()*2400;noise(.2,0,f*1.7,f*.5,.4,'bandpass',3);tone(f,.16,0,'sine',.08,f*.4)};
+  var sCrackle=function(t0){for(var i=0;i<7;i++)noise(.05,t0+i*.055+Math.random()*.04,3000+Math.random()*5000,1800,.11,'bandpass',6)};
+  var sChoir=function(){[523,659,784,1047,1319].forEach(function(f,i){tone(f,3.6,i*.06,'triangle',.11,0,.7);tone(f*1.006,3.6,i*.06,'sine',.07,0,.9)})};
+  var sArp=function(){[523,659,784,1047,1319,1568,2093,2637].forEach(function(f,i){tone(f,.55,.05+i*.07,'triangle',.16);tone(f*2,.35,.05+i*.07,'sine',.05)})};
+  var sWhoosh=function(){noise(1.3,0,200,5500,.55,'bandpass',.8);tone(200,1.3,0,'sawtooth',.12,1800)};
+  var snd=$('gSnd');
+  function enable(){A();setTimeout(function(){if(live()){snd.classList.add('on');snd.textContent='🔔 הסאונד פועל';sArp()}},80)}
+  snd.addEventListener('click',enable);
+
+  /* ---------- אפקטים על הקנבס ---------- */
+  var cv=$('gFx'),cx=cv.getContext('2d'),W=innerWidth,H=innerHeight,R=1,ps=[],fxOn=false,spr={};
+  var COLS=['#ff2d95','#ff7ac0','#ffd3ea','#b58cff','#ffffff','#ffd54f','#7af0ff'], GL=['♥','♥','✦','✧','🦄','🦄','💗','✨','👑'];
+  function size(){R=Math.min(devicePixelRatio||1,1.5);W=innerWidth;H=innerHeight;cv.width=W*R;cv.height=H*R;spr={}}
+  function sprite(ch,c,s){var q=Math.max(10,Math.round(s/8)*8),k=ch+c+q,e=spr[k];if(e)return e;var pad=16,sz=q+pad*2,o=document.createElement('canvas');o.width=o.height=Math.ceil(sz*R);var g=o.getContext('2d');g.scale(R,R);
+    g.font=q+'px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle=c;g.shadowColor=c;g.shadowBlur=12;g.fillText(ch,sz/2,sz/2);return spr[k]={o:o,sz:sz}}
+  function add(p){if(ps.length<760)ps.push(p);if(!fxOn){fxOn=true;requestAnimationFrame(frame)}}
+  function glyphs(x,y,n,pw){for(var i=0;i<n;i++){var an=Math.random()*6.283,sp=(pw||1)*(2+Math.random()*12),s=12+Math.random()*24;
+    add({k:0,x:x,y:y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-3,g:.22,a:1,r:Math.random()*6,vr:(Math.random()-.5)*.3,life:90+Math.random()*60,sp:sprite(GL[Math.random()*GL.length|0],COLS[Math.random()*COLS.length|0],s)})}}
+  function firework(x,y,col){var n=70;for(var i=0;i<n;i++){var an=i/n*6.283+Math.random()*.1,sp=2+Math.random()*6.5;add({k:1,x:x,y:y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,g:.06,a:1,life:55+Math.random()*35,c:i%4?col:'#fff',sz:2+Math.random()*2.5})}}
+  function confetti(n){for(var i=0;i<n;i++)add({k:2,x:Math.random()*W,y:-20-Math.random()*H*.4,vx:(Math.random()-.5)*2,vy:2+Math.random()*4,g:.04,a:1,r:Math.random()*6,vr:(Math.random()-.5)*.3,life:260,c:COLS[Math.random()*COLS.length|0],w:5+Math.random()*7,h:3+Math.random()*5})}
+  function frame(){
+    cx.globalCompositeOperation='destination-out';cx.setTransform(1,0,0,1,0,0);cx.fillStyle='rgba(0,0,0,.2)';cx.fillRect(0,0,cv.width,cv.height);
+    var w=0;
+    for(var i=0;i<ps.length;i++){var p=ps[i];p.life--;p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;if(p.k!==2)p.a*=(p.k===1?.965:.985);if(p.r!==undefined)p.r+=p.vr;
+      if(p.life<=0||p.a<.03||p.y>H+40)continue;ps[w++]=p;
+      if(p.k===0){cx.globalCompositeOperation='source-over';var c=Math.cos(p.r)*R,s=Math.sin(p.r)*R;cx.setTransform(c,s,-s,c,p.x*R,p.y*R);cx.globalAlpha=Math.min(1,p.a);var h=p.sp.sz/2;cx.drawImage(p.sp.o,-h,-h,p.sp.sz,p.sp.sz)}
+      else if(p.k===1){cx.globalCompositeOperation='lighter';cx.setTransform(R,0,0,R,0,0);cx.globalAlpha=Math.min(1,p.a);cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,p.sz,0,6.283);cx.fill()}
+      else{cx.globalCompositeOperation='source-over';var c2=Math.cos(p.r)*R,s2=Math.sin(p.r)*R;cx.setTransform(c2,s2,-s2,c2,p.x*R,p.y*R);cx.globalAlpha=1;cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h)}}
+    ps.length=w;cx.globalAlpha=1;
+    if(w){requestAnimationFrame(frame)}else{fxOn=false;cx.setTransform(1,0,0,1,0,0);cx.globalCompositeOperation='source-over';cx.clearRect(0,0,cv.width,cv.height)}
+  }
+  addEventListener('resize',size);size();
+
+  /* ---------- עזרים חזותיים ---------- */
+  function shock(){var d=document.createElement('i');d.className='shock';gate.appendChild(d);setTimeout(function(){d.remove()},1100)}
+  function shake(c){gate.classList.remove('shake','shake2');void gate.offsetWidth;gate.classList.add(c)}
+  function showNum(n){var b=$('gBig');b.className='big';b.textContent=n;void b.offsetWidth;b.className='big slam'}
+  function showWord(t,sub){var b=$('gBig');b.className='';b.innerHTML='<div class="word">'+t.split(' ').map(function(w,i){return '<span style="--i:'+i+'">'+w+'</span>'}).join(' ')+'</div><div class="sub2">'+sub+'</div>'}
+  function flash(){var f=$('gFlash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go')}
+  function at(ms,fn){return setTimeout(fn,Math.max(0,ms))}
+  function setTitle(t){var h=$('gTitle');h.setAttribute('aria-label',t);h.innerHTML=t.split('').map(function(c,i){return '<span style="--i:'+i+'">'+(c===' '?'&nbsp;':c)+'</span>'}).join('')}
+
+  /* ---------- הסיום הגדול ---------- */
+  function run(startN,liveMode,preview){
+    if(running)return;running=true;clearInterval(timer);A();size();
+    var tz=liveMode?T:Date.now()+startN*1000+80;
+    gate.classList.add('final');
+    at(150,function(){sRiser(Math.max(1,Math.min(startN,(tz-Date.now())/1000)))});
+    for(var n=startN;n>=1;n--)(function(n){
+      var d=tz-n*1000-Date.now(); if(d<-250)return;
+      at(d,function(){showNum(n);sThump(n,startN);shock();shake('shake');glyphs(W/2,H/2,8+(startN-n)*4,.6+(startN-n)*.12);if(navigator.vibrate)try{navigator.vibrate(30+(startN-n)*10)}catch(e){}})
+    })(n);
+    at(tz-Date.now(),boom);
+    function boom(){
+      flash();sBoom();shake('shake2');shock();at(140,shock);at(300,shock);
+      showWord('הגיע הרגע ♥','נסיכה, ההמתנה נגמרה');
+      glyphs(W/2,H/2,150,1.8);glyphs(W/2,H/2,90,1.1);confetti(140);
+      at(200,sChoir);at(320,sArp);
+      for(var i=0;i<8;i++)(function(i){at(450+i*330,function(){firework(W*(.12+Math.random()*.76),H*(.1+Math.random()*.5),COLS[i%COLS.length]);sPop();sCrackle(.08);if(i%3===0)glyphs(W*Math.random(),H*(.2+Math.random()*.3),30,.9)})})(i);
+      at(4300,finish);
+    }
+    function finish(){
+      sWhoosh();
+      if(!preview){try{localStorage.setItem('finaleSeen','1')}catch(e){}}
+      gate.classList.add('iris');
+      root.classList.remove('gated');            // המנעול מתגלה מתחת לכניסה שנסגרת
+      at(1500,function(){gate.remove();window.scrollTo(0,0)});
+    }
+  }
+
+  /* ---------- עמוד ההמתנה ---------- */
+  var num=$('gNum'),unit=$('gUnit'),when=$('gWhen'),arc=$('gArc');
   function paint(){
-    var ms=T-Date.now(); if(ms<=0){open();return}
+    if(running){clearInterval(timer);return}
+    var ms=T-Date.now();
+    if(ms<=10500&&!running){run(10,true,false);return}
     var d=Math.ceil(ms/864e5);
     if(d!==shown){shown=d;
       when.textContent=d===1?'תוכלי להיכנס רק':'תוכלי להיכנס רק בעוד';
@@ -592,14 +724,19 @@ footer .final{font-size:clamp(3rem,12vw,5rem);margin-top:56px;line-height:1.2;co
     }
     firstPaint=false;
     $('gH').textContent=nf(Math.floor(ms/36e5));$('gM').textContent=nf(Math.floor(ms/6e4));$('gS').textContent=nf(Math.floor(ms/1e3));
+    sTick();
   }
-  paint();setInterval(paint,1000);
-  // תצוגה מקדימה לרון: 7 לחיצות מהירות על הכתר
+  if(ready){
+    setTitle('הגיע הרגע');$('gSub').textContent='ההמתנה נגמרה, נסיכה 👑';$('gWhen').textContent='יש לי הפתעה בשבילך';
+    $('gGo').addEventListener('click',function(){A();setTimeout(function(){run(3,false,false)},60)});
+  }else{paint();timer=setInterval(paint,1000)}
+
+  /* ---------- תצוגה מקדימה לרון: 7 לחיצות מהירות על הכתר ---------- */
   var taps=[],crown=$('gCrown');
   crown.addEventListener('click',function(){
-    var n=Date.now();taps=taps.filter(function(x){return n-x<5000});taps.push(n);
-    crown.classList.remove('tap');void crown.offsetWidth;crown.classList.add('tap');tone(500+taps.length*90,.25);
-    if(taps.length>=7){tone(784,.4);tone(1047,.5,.12);open()}
+    A();var n=Date.now();taps=taps.filter(function(x){return n-x<5000});taps.push(n);
+    crown.classList.remove('tap');void crown.offsetWidth;crown.classList.add('tap');setTimeout(function(){sTap(taps.length)},60);
+    if(taps.length>=7){taps=[];run(5,false,true)}
   });
 })();
 </script>
