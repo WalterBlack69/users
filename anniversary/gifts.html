@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>המתנות של טליה 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="back" href="index.html">← חזרה</a>
+
+<section style="padding-top:110px;min-height:100vh">
+  <h2>4 מתנות בשבילך 🎁</h2>
+  <p class="sub">לחצי על כל מתנה כדי לפתוח אותה</p>
+  <div class="gifts" id="gifts"></div>
+  <p class="hand" id="done" style="font-size:2.4rem;color:var(--hot);margin-top:80px;opacity:0;transition:1s">פתחת הכל! אוהב אותך ♥</p>
+</section>
+
+<script src="script.js"></script>
+<script>
+  // ערכו כאן את תוכן המתנות
+  const GIFTS = [
+    {em:"🍷", title:"דייט לבחירתך", text:"ערב שלם שאת מחליטה עליו: מסעדה, מקום, הכל", c1:"#ff2d95", c2:"#ff6fb5"},
+    {em:"😌", title:"שובר \"את צודקת\"", text:"יום שלם שבו אני מסכים איתך על הכל (מבוסס על סיפור אמיתי)", c1:"#a24bff", c2:"#c8a2ff"},
+    {em:"💆‍♀️", title:"יום פינוק", text:"עיסוי, קפה, סרט ומה שתרצי. אני על הכל", c1:"#ff5c8a", c2:"#ffa1bd"},
+    {em:"🎶", title:"ערב אוליביה רודריגו", text:"פלייליסט, שירה בקולי קולות וריקודים בסלון", c1:"#d61c7e", c2:"#ff8fcb"}
+  ];
+  const box=document.getElementById('gifts'); let opened=0;
+  GIFTS.forEach(gf=>{
+    const d=document.createElement('div'); d.className='gift';
+    d.style.setProperty('--c1',gf.c1); d.style.setProperty('--c2',gf.c2);
+    d.innerHTML=`<div class="card"><span class="em">${gf.em}</span><b>${gf.title}</b><small>${gf.text}</small></div>
+      <div class="box"></div><div class="lid"></div><div class="hint hand">לחצי לפתיחה</div>`;
+    d.onclick=e=>{
+      if(d.classList.contains('open')) return;
+      d.classList.add('open'); const r=d.getBoundingClientRect(); confetti(r.left+r.width/2,r.top+r.height/2);
+      if(++opened===GIFTS.length) setTimeout(()=>document.getElementById('done').style.opacity=1,900);
+    };
+    box.append(d);
+  });
+</script>
+</body>
+</html>
