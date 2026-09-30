@@ -182,6 +182,7 @@ footer .big{color:var(--hot);font-size:3.4rem;animation:beat 1.2s infinite}
 <footer>
   <div class="big">♥</div>
   שנה טובה יותר ממה שחלמתי,<br>ועוד הרבה לפנינו
+  <p class="hand" style="font-size:2.6rem;color:var(--hot);margin-top:40px;line-height:1.3">ניפגש היום בספסל,<br>יש לי עוד משהו קטן בשבילך 😉</p>
 </footer>
 
 <div id="lb"><img alt=""></div>
@@ -211,8 +212,25 @@ try{
         if(p.y<c.height+20&&p.life<200){alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();}});
       if(alive)requestAnimationFrame(frame);else ctx.clearRect(0,0,c.width,c.height);})();
   }
+  function chime(){
+    try{
+      const A=window.AudioContext||window.webkitAudioContext, ac=chime.ac||(chime.ac=new A());
+      if(ac.state==='suspended')ac.resume();
+      const t=ac.currentTime;
+      [[0,523.25],[.09,659.25],[.18,783.99],[.29,1046.5]].forEach(([d,f])=>{
+        const o=ac.createOscillator(),g=ac.createGain();
+        o.type='triangle';o.frequency.value=f;
+        g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(.25,t+d+.02);g.gain.exponentialRampToValueAtTime(.001,t+d+.5);
+        o.connect(g);g.connect(ac.destination);o.start(t+d);o.stop(t+d+.55);
+      });
+      const n=ac.createOscillator(),ng=ac.createGain();  // פופ קטן בפתיחה
+      n.frequency.setValueAtTime(300,t);n.frequency.exponentialRampToValueAtTime(90,t+.12);
+      ng.gain.setValueAtTime(.3,t);ng.gain.exponentialRampToValueAtTime(.001,t+.15);
+      n.connect(ng);ng.connect(ac.destination);n.start(t);n.stop(t+.16);
+    }catch(e){}
+  }
   document.querySelectorAll('.gift input').forEach(inp=>inp.addEventListener('change',()=>{
-    if(inp.checked){const r=inp.parentElement.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2);}}));
+    if(inp.checked){chime();const r=inp.parentElement.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2);}}));
 }catch(e){}
 })();
 </script>
