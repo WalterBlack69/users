@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שנה ביחד ♥</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@300;400;500&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rose:#e11d48; --blush:#fff1f2; --pink:#fda4af; --wine:#4c0519; --gold:#c9a24b;
+    --ink:#3b0a1a; --card:#ffffffcc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Heebo',sans-serif;color:var(--ink);background:linear-gradient(180deg,#fff1f2 0%,#ffe4e6 40%,#fecdd3 100%);line-height:1.9;overflow-x:hidden}
+  h1,h2{font-family:'Frank Ruhl Libre',serif}
+  section{padding:80px 20px;max-width:1000px;margin:auto;text-align:center}
+  h2{font-size:clamp(2rem,5vw,3rem);color:var(--wine);margin-bottom:12px}
+  h2::after{content:"♥";display:block;color:var(--rose);font-size:1.2rem;margin-top:6px}
+
+  /* hero */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;max-width:none;
+    background:radial-gradient(circle at 50% 30%,#fb7185aa,transparent 60%),linear-gradient(160deg,#9f1239,#4c0519);color:#fff;position:relative;overflow:hidden}
+  .hero .small{letter-spacing:.3em;font-weight:300;opacity:.85}
+  .hero h1{font-size:clamp(3rem,11vw,7rem);font-weight:900;line-height:1.1;margin:10px 0;text-shadow:0 4px 30px #0006}
+  .hero .names{font-family:'Amatic SC',cursive;font-size:clamp(2rem,6vw,3.5rem);color:var(--pink)}
+  .hero .scroll{position:absolute;bottom:26px;font-size:2rem;animation:bob 2s infinite}
+  @keyframes bob{50%{transform:translateY(10px)}}
+  .heart{position:absolute;bottom:-40px;color:#fff;opacity:.5;animation:rise linear infinite;pointer-events:none}
+  @keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+  /* counter */
+  .counter{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .counter div{background:var(--card);border-radius:20px;padding:18px 24px;min-width:110px;box-shadow:0 10px 30px #e11d4822}
+  .counter b{display:block;font-family:'Frank Ruhl Libre',serif;font-size:2.6rem;color:var(--rose)}
+
+  /* letter */
+  .letter{background:var(--card);border-radius:28px;padding:44px 34px;box-shadow:0 20px 60px #e11d4826;margin-top:30px;text-align:right;
+    font-size:1.2rem;border:1px solid #fecdd3;position:relative}
+  .letter p{margin-bottom:18px}
+  .letter .sign{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:1.5rem;color:var(--rose);text-align:left;margin:0}
+  [contenteditable]{outline:none}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;margin-top:40px}
+  .polaroid{background:#fff;padding:14px 14px 18px;box-shadow:0 12px 30px #0002;transition:.4s;cursor:pointer}
+  .polaroid:nth-child(odd){transform:rotate(-2.5deg)}
+  .polaroid:nth-child(even){transform:rotate(2.5deg)}
+  .polaroid:hover{transform:rotate(0) scale(1.05);z-index:2}
+  .polaroid img,.polaroid .ph{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:linear-gradient(135deg,#fda4af,#fb7185)}
+  .polaroid .ph{display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
+  .polaroid figcaption{font-family:'Amatic SC',cursive;font-size:1.7rem;margin-top:10px;color:var(--wine)}
+
+  /* reasons */
+  .reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:36px}
+  .reason{background:var(--card);border-radius:22px;padding:26px 20px;box-shadow:0 8px 24px #e11d4818;transition:.3s}
+  .reason:hover{transform:translateY(-6px)}
+  .reason span{font-size:2rem;display:block}
+
+  /* lightbox */
+  #lb{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+  #lb img{max-width:92vw;max-height:90vh;border-radius:8px}
+  #lb.on{display:flex}
+
+  footer{padding:60px 20px;text-align:center;font-family:'Frank Ruhl Libre',serif;font-size:1.6rem;color:var(--wine)}
+  footer .big{color:var(--rose);font-size:3rem;animation:beat 1.2s infinite}
+  @keyframes beat{50%{transform:scale(1.25)}}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:1s}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ===== כל מה שצריך לשנות נמצא כאן ===== -->
+<script>
+  const CONFIG = {
+    herName:  "אהובתי",              // השם שלה
+    yourName: "השם שלך",            // השם שלך
+    startDate:"2025-09-30",         // תאריך תחילת הקשר (שנה-חודש-יום)
+    photos: [                        // שמות קבצים בתיקיית photos/ + כיתוב
+      {file:"1.jpg", caption:"הפעם הראשונה שלנו"},
+      {file:"2.jpg", caption:"הטיול הזה…"},
+      {file:"3.jpg", caption:"כי איתך הכל כיף"},
+      {file:"4.jpg", caption:"הצחוקים שלנו"},
+      {file:"5.jpg", caption:"רגעים קטנים"},
+      {file:"6.jpg", caption:"ועוד המון לפנינו"}
+    ]
+  };
+</script>
+
+<header class="hero">
+  <div class="small">שנה ביחד</div>
+  <h1>אני אוהב אותך</h1>
+  <div class="names" id="names"></div>
+  <div class="scroll">⌄</div>
+</header>
+
+<section class="reveal">
+  <h2>כבר שנה שלמה</h2>
+  <p>ולכל רגע איתך אני אסיר תודה</p>
+  <div class="counter">
+    <div><b id="cDays">0</b>ימים</div>
+    <div><b id="cHours">0</b>שעות</div>
+    <div><b id="cMin">0</b>דקות</div>
+    <div><b id="cSec">0</b>שניות</div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>הרגעים שלנו</h2>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section class="reveal">
+  <h2>מכתב אליך</h2>
+  <div class="letter" id="letter">
+    <p><span class="herName"></span> שלי,</p>
+    <p>שנה עברה, ואני עדיין מרגיש כמו ביום הראשון – עם פרפרים בבטן וחיוך שלא יורד לי מהפנים.</p>
+    <p>תודה שאת פשוט את: על הצחוק שממלא את הבית, על החיבוק שמסדר לי את היום, על הסבלנות, על הרגעים הקטנים שהופכים אצלנו לגדולים.</p>
+    <p>לצידך למדתי מה זה להרגיש בבית, גם כשאנחנו באמצע העולם. אני לא יכול לחכות לכל ההרפתקאות, לכל הבוקרים והערבים ולכל השנים שעוד לפנינו.</p>
+    <p>מאחל לנו עוד שנים ארוכות של אהבה, צחוק וקפה של בוקר ביחד.</p>
+    <p>אוהב אותך, היום ותמיד.</p>
+    <p class="sign">— <span class="yourName"></span> ♥</p>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>למה אני אוהב אותך</h2>
+  <div class="reasons">
+    <div class="reason"><span>😊</span>החיוך שלך מאיר לי את היום</div>
+    <div class="reason"><span>🤍</span>הלב הענק והטוב שלך</div>
+    <div class="reason"><span>😂</span>איתך אני צוחק הכי הרבה</div>
+    <div class="reason"><span>🌍</span>איתך כל מקום הוא בית</div>
+    <div class="reason"><span>✨</span>פשוט בגלל שאת את</div>
+    <div class="reason"><span>🫶</span>כי את החברה הכי טובה שלי</div>
+  </div>
+</section>
+
+<footer>
+  <div class="big">♥</div>
+  שנה טובה יותר ממה שחלמתי,<br>ועוד הרבה לפנינו
+</footer>
+
+<div id="lb"><img alt=""></div>
+
+<script>
+  // שמות
+  document.getElementById('names').textContent = `${CONFIG.yourName} & ${CONFIG.herName}`;
+  document.querySelectorAll('.herName').forEach(e=>e.textContent=CONFIG.herName);
+  document.querySelectorAll('.yourName').forEach(e=>e.textContent=CONFIG.yourName);
+
+  // גלריה
+  const g = document.getElementById('gallery');
+  CONFIG.photos.forEach(p=>{
+    const f = document.createElement('figure'); f.className='polaroid';
+    const img = new Image(); img.src='photos/'+p.file; img.alt=p.caption; img.loading='lazy';
+    img.onerror = ()=>{ const d=document.createElement('div'); d.className='ph'; d.textContent='♥'; img.replaceWith(d); };
+    img.onclick = ()=>{ lb.querySelector('img').src=img.src; lb.classList.add('on'); };
+    const c = document.createElement('figcaption'); c.textContent=p.caption;
+    f.append(img,c); g.append(f);
+  });
+  const lb = document.getElementById('lb'); lb.onclick=()=>lb.classList.remove('on');
+
+  // מונה
+  const start = new Date(CONFIG.startDate+'T00:00:00');
+  function tick(){
+    const s = Math.max(0, Math.floor((Date.now()-start)/1000));
+    cDays.textContent = Math.floor(s/86400);
+    cHours.textContent = Math.floor(s/3600);
+    cMin.textContent = Math.floor(s/60).toLocaleString('he-IL');
+    cSec.textContent = s.toLocaleString('he-IL');
+    cHours.textContent = Number(cHours.textContent).toLocaleString('he-IL');
+  }
+  tick(); setInterval(tick,1000);
+
+  // לבבות צפים
+  const hero = document.querySelector('.hero');
+  for(let i=0;i<22;i++){
+    const h=document.createElement('span'); h.className='heart'; h.textContent='♥';
+    h.style.left=Math.random()*100+'%'; h.style.fontSize=(14+Math.random()*30)+'px';
+    h.style.animationDuration=(7+Math.random()*9)+'s'; h.style.animationDelay=(-Math.random()*12)+'s';
+    hero.append(h);
+  }
+
+  // אנימציית כניסה בגלילה
+  const io = new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
