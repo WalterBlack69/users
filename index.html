@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Five Nights at Ahmad's</title>
+<style>
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;height:100%;background:#000;color:#ddd;font-family:"Courier New",monospace;overflow:hidden}
+#wrap{position:relative;width:100vw;height:100vh;max-width:177vh;max-height:56.25vw;margin:auto;top:50%;transform:translateY(-50%);background:#050505;overflow:hidden}
+.screen{position:absolute;inset:0;display:none}
+.screen.on{display:block}
+.screen:not(.on){display:none!important}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+h1{font-size:5vmin;margin:0;letter-spacing:.3vmin;text-shadow:0 0 12px #c00}
+button.b{background:#000;border:2px solid #888;color:#ddd;font:inherit;font-size:2.4vmin;padding:1vmin 3vmin;cursor:pointer}
+button.b:hover{background:#222;color:#fff}
+.small{font-size:1.7vmin;color:#999;max-width:70%}
+/* title flashing */
+#titleFace{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;pointer-events:none;mix-blend-mode:screen}
+#menu{background:radial-gradient(#1a0505,#000)}
+/* office */
+#office{background:linear-gradient(#17120d,#0a0806)}
+.hall{position:absolute;top:18%;bottom:22%;width:20%;background:#020202;border:2px solid #222;overflow:hidden}
+#hallL{left:3%}#hallR{right:3%}
+.hall .who{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;opacity:0}
+.hall.lit{background:#555}
+.hall.lit .who{opacity:1}
+.door{position:absolute;top:0;left:0;right:0;height:0;background:repeating-linear-gradient(#444 0 10px,#2a2a2a 10px 12px);border-bottom:4px solid #777;transition:height .25s}
+.door.closed{height:100%}
+.ctl{position:absolute;bottom:3%;display:flex;flex-direction:column;gap:6px}
+#ctlL{left:3%}#ctlR{right:3%}
+.ctl button{background:#222;border:2px solid #666;color:#ddd;font:inherit;font-size:1.8vmin;padding:.7vmin 1.2vmin;cursor:pointer}
+.ctl button.act{background:#7a1010;border-color:#f55}
+#desk{position:absolute;left:30%;right:30%;bottom:0;height:34%;background:linear-gradient(#2b1d12,#150e08);border-top:3px solid #3a2a1a;text-align:center;padding-top:2%}
+#desk div{font-size:2vmin;color:#aaa}
+#camBtn{position:absolute;left:36%;right:36%;bottom:2%;background:#111;border:2px solid #777;color:#ddd;font:inherit;font-size:2vmin;padding:1vmin;cursor:pointer;z-index:5}
+#fan{position:absolute;left:46%;top:30%;width:8%;height:8%;border-radius:50%;border:3px dotted #555;animation:sp .4s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hud{position:absolute;right:1.5%;top:1.5%;text-align:right;font-size:2.6vmin;text-shadow:0 0 6px #000;z-index:6;pointer-events:none}
+.hudl{position:absolute;left:1.5%;bottom:13%;font-size:2.4vmin;z-index:6;pointer-events:none;text-shadow:0 0 6px #000}
+#officeTxt{position:absolute;left:0;right:0;top:3%;text-align:center;font-size:2vmin;color:#a88}
+/* cameras */
+#cams{position:absolute;inset:0;background:#0a0f0a;display:none;z-index:4}
+#cams.on{display:block}
+#camView{position:absolute;inset:6% 22% 14% 4%;border:3px solid #cfc;background:radial-gradient(#1a251a,#050805);display:flex;align-items:flex-end;justify-content:space-around;padding:2%;overflow:hidden}
+#camName{position:absolute;left:5%;top:7.5%;color:#cfc;font-size:2.4vmin;z-index:2;text-shadow:0 0 5px #000}
+#noise{position:absolute;inset:0;opacity:.18;background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);animation:nz .15s steps(2) infinite;pointer-events:none}
+@keyframes nz{50%{transform:translateY(2px);opacity:.28}}
+#camBtns{position:absolute;right:2%;top:8%;width:17%;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#camBtns button{background:#1d3a1d;border:2px solid #cfc;color:#cfc;font:inherit;font-size:2vmin;padding:1.2vmin 0;cursor:pointer}
+#camBtns button.sel{background:#4a8a4a;color:#fff}
+#windBtn{position:absolute;right:2%;top:42%;width:17%;background:#3a2a10;border:2px solid #fc6;color:#fc6;font:inherit;font-size:1.8vmin;padding:1.2vmin;cursor:pointer;display:none}
+#boxBar{position:absolute;right:2%;top:54%;width:17%;height:2vmin;border:2px solid #fc6;display:none}
+#boxFill{height:100%;background:#fc6;width:100%}
+#camClose{position:absolute;left:36%;right:36%;bottom:2%;background:#111;border:2px solid #cfc;color:#cfc;font:inherit;font-size:2vmin;padding:1vmin;cursor:pointer}
+.fig{display:flex;flex-direction:column;align-items:center;font-size:1.6vmin;color:#cfc}
+.fig img,.fig .ph{height:34vmin;max-width:20vmin;object-fit:cover;border-radius:4px;filter:contrast(1.1)}
+.hall .fig img,.hall .fig .ph{height:30vmin}
+.ph{width:16vmin;display:flex;align-items:center;justify-content:center;font-size:7vmin;color:#000;font-weight:bold}
+/* scare */
+#scare{background:#000;z-index:20}
+#scare .face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+#scare img,#scare .ph{height:100%;max-width:100%;width:auto;filter:contrast(1.8) saturate(2) brightness(1.2)}
+#scare.on .face{animation:shake .06s infinite}
+@keyframes shake{0%{transform:translate(-2%,2%) scale(1.1)}50%{transform:translate(2%,-2%) scale(1.25)}100%{transform:translate(-1%,-2%) scale(1.15)}}
+#clock{font-size:8vmin}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+<div id="menu" class="screen on center">
+  <div id="titleFace"></div>
+  <h1 id="t1">FIVE NIGHTS</h1>
+  <h1 id="t2">AT AHMAD'S</h1>
+  <div class="small">You are <b>Bibi</b>, night-shift security. Survive until 6 AM. Do <i>not</i> run out of power.</div>
+  <button class="b" id="newBtn">New Game</button>
+  <button class="b" id="contBtn">Continue</button>
+  <div id="contInfo" class="small"></div>
+  <div class="small">Music box music: <input type="file" id="musicFile" accept="audio/*"> <button class="b" id="musicReset" style="font-size:1.6vmin;padding:.4vmin 1vmin">Default</button></div>
+  <div class="small">Put your own images in <code>img/</code> (mansur, liberman, benet, lapid, bibi .png/.jpg) and a tune in <code>music/musicbox.mp3</code>.</div>
+</div>
+
+<div id="between" class="screen center">
+  <div id="clock">12 AM</div>
+  <h1 id="nightTxt">Night 1</h1>
+</div>
+
+<div id="office" class="screen">
+  <div id="officeTxt"></div>
+  <div class="hall" id="hallL"><div class="who" id="whoL"></div><div class="door" id="doorL"></div></div>
+  <div class="hall" id="hallR"><div class="who" id="whoR"></div><div class="door" id="doorR"></div></div>
+  <div class="ctl" id="ctlL"><button id="dL">DOOR [A]</button><button id="lL">LIGHT [Q]</button></div>
+  <div class="ctl" id="ctlR"><button id="dR">DOOR [D]</button><button id="lR">LIGHT [E]</button></div>
+  <div id="fan"></div>
+  <div id="desk"><div>BIBI'S DESK</div><div style="font-size:1.5vmin;margin-top:1vmin">Keys: A/D doors &middot; Q/E lights &middot; SPACE cameras</div></div>
+  <button id="camBtn">&#9660; CAMERAS [SPACE]</button>
+  <div class="hud"><div id="hudTime">12 AM</div><div id="hudNight">Night 1</div></div>
+  <div class="hudl"><div id="hudPow">Power: 100%</div><div id="hudUse">Usage: ▮</div></div>
+
+  <div id="cams">
+    <div id="camName"></div>
+    <div id="camView"></div>
+    <div id="noise"></div>
+    <div id="camBtns"></div>
+    <button id="windBtn">HOLD TO WIND MUSIC BOX</button>
+    <div id="boxBar"><div id="boxFill"></div></div>
+    <button id="camClose">&#9650; CLOSE [SPACE]</button>
+  </div>
+</div>
+
+<div id="scare" class="screen"><div class="face" id="scareFace"></div></div>
+
+<div id="over" class="screen center">
+  <h1 id="overTxt">GAME OVER</h1>
+  <div class="small" id="overSub"></div>
+  <button class="b" id="retryBtn">Try Again</button>
+  <button class="b" id="toMenu">Menu</button>
+</div>
+
+<div id="win" class="screen center">
+  <div id="clock2" style="font-size:9vmin">6 AM</div>
+  <h1 id="winTxt">You survived the night</h1>
+  <button class="b" id="nextBtn">Next Night</button>
+</div>
+
+</div>
+
+<script>
+"use strict";
+/* ============ CHARACTERS ============ */
+// Edit names / image names here. Images are looked up at img/<img>.(png|jpg|jpeg|webp)
+const CH = {
+  ahmad:    {name:"Ahmad Tibi",       role:"Freddy", img:"ahmad",    color:"#b5651d", ext:["webp","png","jpg"]},
+  mansur:   {name:"Mansour Abbas",    role:"Puppet", img:"mansur",   color:"#e8e8e8"},
+  liberman: {name:"Liberman",         role:"Chica",  img:"liberman", color:"#e8d020"},
+  benet:    {name:"Bennett",          role:"Foxy",   img:"benet",    color:"#c0392b"},
+  lapid:    {name:"Yair Lapid",       role:"Bonnie", img:"lapid",    color:"#6a3fb5"},
+};
+const NIGHTS = 5;
+const HOUR_MS = 45000;          // real ms per in-game hour (6 hours / night)
+const AI = [                    // difficulty (0-20) per night: ahmad, liberman, lapid, benet, mansur
+  {ahmad:0, liberman:1, lapid:3, benet:1, mansur:1},
+  {ahmad:1, liberman:3, lapid:5, benet:3, mansur:2},
+  {ahmad:3, liberman:5, lapid:7, benet:5, mansur:4},
+  {ahmad:6, liberman:7, lapid:9, benet:8, mansur:6},
+  {ahmad:10,liberman:10,lapid:12,benet:11,mansur:8},
+];
+const CAMS = {1:"Stage",2:"Dining Hall",3:"West Hall",4:"East Hall",5:"Pirate Cove",6:"Music Box"};
+const ROOM_CAM = {stage:1,dining:2,west:3,east:4,cove:5,box:6};
+
+/* ============ IMAGE LOADING ============ */
+const imgOK = {};
+function loadImg(id){
+  const c = CH[id], exts = c.ext || ["png","jpg","jpeg","webp"];
+  let i = 0;
+  (function tryNext(){
+    if(i>=exts.length) return;
+    const im = new Image(), src = `img/${c.img}.${exts[i++]}`;
+    im.onload = ()=>{ imgOK[id]=src; };
+    im.onerror = tryNext;
+    im.src = src;
+  })();
+}
+Object.keys(CH).forEach(loadImg);
+function portrait(id){
+  const c = CH[id], d = document.createElement("div");
+  d.className="fig";
+  if(imgOK[id]){ const im=new Image(); im.src=imgOK[id]; d.appendChild(im); }
+  else { const p=document.createElement("div"); p.className="ph"; p.style.background=c.color; p.style.height="30vmin"; p.textContent=c.name[0]; d.appendChild(p); }
+  const l=document.createElement("div"); l.textContent=c.name; d.appendChild(l);
+  return d;
+}
+
+/* ============ AUDIO ============ */
+let AC=null, customMusic=null, musicEl=null, musicOsc=null;
+function ac(){ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); return AC; }
+function tone(freq,dur,type="sine",vol=.2,when=0){
+  const a=ac(), o=a.createOscillator(), g=a.createGain();
+  o.type=type; o.frequency.value=freq; o.connect(g); g.connect(a.destination);
+  const t=a.currentTime+when;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.start(t); o.stop(t+dur+.02);
+}
+function noiseBurst(dur=1.2,vol=.5){
+  const a=ac(), n=a.sampleRate*dur, buf=a.createBuffer(1,n,a.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n);
+  const s=a.createBufferSource(), g=a.createGain(); s.buffer=buf; g.gain.value=vol; s.connect(g); g.connect(a.destination); s.start();
+  tone(90,dur,"sawtooth",.4); tone(140,dur,"square",.2);
+}
+// default synthesized music-box tune (note names -> Hz). Replace via the menu or music/musicbox.mp3
+const N={C4:261.6,D4:293.7,E4:329.6,F4:349.2,G4:392,A4:440,B4:493.9,C5:523.3,D5:587.3,E5:659.3,G5:784};
+const TUNE=["E5","D5","C5","D5","E5","E5","E5",0,"D5","D5","D5",0,"E5","G5","G5",0,"E5","D5","C5","D5","E5","E5","E5","E5","D5","D5","E5","D5","C5",0,0,0];
+let tuneTimer=null, tuneI=0, musicOn=false;
+function musicStart(){
+  if(musicOn) return; musicOn=true;
+  if(musicEl){ musicEl.loop=true; musicEl.play().catch(()=>{}); return; }
+  tuneTimer=setInterval(()=>{ const n=TUNE[tuneI++%TUNE.length]; if(n) tone(N[n],.5,"triangle",.12); },260);
+}
+function musicStop(){
+  if(!musicOn) return; musicOn=false;
+  if(musicEl) musicEl.pause();
+  clearInterval(tuneTimer);
+}
+function setMusic(src){ if(musicEl){musicEl.pause();} musicEl = src ? Object.assign(new Audio(src),{loop:true,volume:.8}) : null; }
+// auto-detect music/musicbox.mp3
+(function(){ const a=new Audio("music/musicbox.mp3"); a.addEventListener("canplaythrough",()=>{ if(!customMusic) setMusic("music/musicbox.mp3"); },{once:true}); a.load(); })();
+document.getElementById("musicFile").onchange=e=>{ const f=e.target.files[0]; if(f){ customMusic=URL.createObjectURL(f); setMusic(customMusic);} };
+document.getElementById("musicReset").onclick=()=>{ customMusic=null; setMusic(null); document.getElementById("musicFile").value=""; };
+
+/* ============ HELPERS ============ */
+const $=id=>document.getElementById(id);
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); }
+const hourLabel=h=>h===0?"12 AM":h+" AM";
+let G=null, loop=null, progress=+(localStorage.getItem("fna_night")||1);
+
+/* ============ MENU / TITLE FLASH ============ */
+function titleFlash(){
+  const f=$("titleFace");
+  if(imgOK.ahmad) f.style.backgroundImage=`url(${imgOK.ahmad})`;
+  setInterval(()=>{
+    if(!$("menu").classList.contains("on")) return;
+    if(Math.random()<.35){
+      f.style.opacity=(.35+Math.random()*.65);
+      $("t1").style.opacity=$("t2").style.opacity=.2;
+      setTimeout(()=>{f.style.opacity=0;$("t1").style.opacity=$("t2").style.opacity=1;},60+Math.random()*120);
+    }
+  },420);
+}
+titleFlash();
+function refreshMenu(){ $("contBtn").style.display=progress>1?"":"none"; $("contInfo").textContent=progress>1?`Night ${progress}`:""; }
+refreshMenu();
+$("newBtn").onclick=()=>{ ac(); progress=1; localStorage.setItem("fna_night",1); startNight(1); };
+$("contBtn").onclick=()=>{ ac(); startNight(progress); };
+$("retryBtn").onclick=()=>startNight(G.night);
+$("toMenu").onclick=()=>{ refreshMenu(); show("menu"); };
+$("nextBtn").onclick=()=>{ if(G.night>=NIGHTS){ refreshMenu(); show("menu"); } else startNight(G.night+1); };
+
+/* ============ NIGHT SETUP ============ */
+function startNight(n){
+  clearInterval(loop);
+  const ai=AI[Math.min(n,NIGHTS)-1];
+  G={
+    night:n, t:0, power:100, over:false, camOpen:false, cam:1, winding:false,
+    door:{L:false,R:false}, light:{L:false,R:false},
+    box:100, boxFuse:null, powerOut:false, outT:0, ai,
+    ch:{
+      ahmad:   {room:"stage", route:["stage","dining","east","doorR"], i:0, cd:0},
+      liberman:{room:"stage", route:["stage","dining","east","doorR"], i:0, cd:0},
+      lapid:   {room:"stage", route:["stage","dining","west","doorL"], i:0, cd:0},
+      benet:   {stage:0, run:null},
+    },
+    msg:"",
+  };
+  $("nightTxt").textContent=`Night ${n}`; $("clock").textContent="12 AM";
+  show("between");
+  setTimeout(()=>{ if(!G||G.over) return; resetOffice(); show("office"); G.last=performance.now(); loop=setInterval(tick,100); },2200);
+}
+function resetOffice(){
+  ["L","R"].forEach(s=>{ $("door"+s).classList.remove("closed"); $("hall"+s).classList.remove("lit"); $("d"+s).classList.remove("act"); $("l"+s).classList.remove("act"); });
+  $("cams").classList.remove("on"); $("hudNight").textContent=`Night ${G.night}`;
+  $("officeTxt").textContent = G.night===1 ? "Welcome, Bibi. Check the cameras. Keep the doors in mind." : "";
+  buildCamButtons(); updateHud(); musicStart();
+}
+
+/* ============ INPUT ============ */
+function toggleDoor(s){ if(!G||G.over||G.camOpen||G.powerOut) return; G.door[s]=!G.door[s]; $("door"+s).classList.toggle("closed",G.door[s]); $("d"+s).classList.toggle("act",G.door[s]); tone(120,.15,"square",.15); }
+function toggleLight(s){ if(!G||G.over||G.camOpen||G.powerOut) return; const o=s==="L"?"R":"L"; G.light[s]=!G.light[s]; if(G.light[s]) G.light[o]=false; renderLights(); }
+function toggleCam(){ if(!G||G.over||G.powerOut) return; G.camOpen=!G.camOpen; G.light.L=G.light.R=false; renderLights(); $("cams").classList.toggle("on",G.camOpen); if(G.camOpen){ renderCam(); tone(300,.1,"square",.1);} else {G.winding=false;} }
+$("dL").onclick=()=>toggleDoor("L"); $("dR").onclick=()=>toggleDoor("R");
+$("lL").onclick=()=>toggleLight("L"); $("lR").onclick=()=>toggleLight("R");
+$("camBtn").onclick=toggleCam; $("camClose").onclick=toggleCam;
+$("windBtn").onmousedown=$("windBtn").ontouchstart=()=>{ if(G) G.winding=true; };
+window.addEventListener("mouseup",()=>{ if(G) G.winding=false; });
+window.addEventListener("touchend",()=>{ if(G) G.winding=false; });
+window.addEventListener("keydown",e=>{
+  if(!G||!$("office").classList.contains("on")) return;
+  const k=e.key.toLowerCase();
+  if(k==="a")toggleDoor("L"); else if(k==="d")toggleDoor("R");
+  else if(k==="q")toggleLight("L"); else if(k==="e")toggleLight("R");
+  else if(k===" "){ e.preventDefault(); toggleCam(); }
+  else if(G.camOpen && k>="1"&&k<="6"){ G.cam=+k; renderCam(); }
+});
+function buildCamButtons(){
+  const w=$("camBtns"); w.innerHTML="";
+  for(const k in CAMS){ const b=document.createElement("button"); b.textContent="CAM "+k; b.dataset.c=k; b.onclick=()=>{G.cam=+k; renderCam();}; w.appendChild(b); }
+}
+
+/* ============ RENDER ============ */
+function whoInRoom(room){
+  const out=[]; const c=G.ch;
+  ["ahmad","liberman","lapid"].forEach(id=>{ if(c[id].room===room) out.push(id); });
+  if(room==="cove" && c.benet.stage<3) out.push("benet");
+  if(room==="box" && G.box<=0) {} else if(room==="box") out.push("mansur");
+  return out;
+}
+function renderCam(){
+  if(!G) return;
+  const room=Object.keys(ROOM_CAM).find(r=>ROOM_CAM[r]===G.cam);
+  $("camName").textContent=`CAM ${G.cam} - ${CAMS[G.cam]}`;
+  document.querySelectorAll("#camBtns button").forEach(b=>b.classList.toggle("sel",+b.dataset.c===G.cam));
+  const v=$("camView"); v.innerHTML="";
+  let list=whoInRoom(room);
+  if(room==="cove"){ // Benet's stage is visible as pose; at stage 3 he is gone (running) or revealed
+    if(G.ch.benet.stage>=3) list=list.filter(x=>x!=="benet");
+    if(G.ch.benet.run!==null && G.ch.benet.run>0){ /* spotted */ }
+  }
+  if(Math.random()<.04) list=[]; // camera glitch
+  if(room==="box"){ // music box room: show puppet only while he is in box; out = in the hall
+    if(G.box<=0) list=["mansur"];
+  }
+  list.forEach(id=>v.appendChild(portrait(id)));
+  if(!list.length){ const e=document.createElement("div"); e.style.cssText="color:#586;font-size:2vmin;margin:auto"; e.textContent="- empty -"; v.appendChild(e); }
+  const showBox=G.cam===6;
+  $("windBtn").style.display=showBox?"block":"none"; $("boxBar").style.display=showBox?"block":"none";
+}
+function renderLights(){
+  ["L","R"].forEach(s=>{
+    const h=$("hall"+s), who=$("who"+s); h.classList.toggle("lit",G.light[s]);
+    who.innerHTML="";
+    if(G.light[s]){
+      const doorRoom = s==="L"?"doorL":"doorR";
+      const here=["ahmad","liberman","lapid"].filter(id=>G.ch[id].room===doorRoom);
+      if(s==="L" && G.ch.benet.run!==null && G.ch.benet.run<=1.2) here.push("benet");
+      here.forEach(id=>who.appendChild(portrait(id)));
+      if(here.length) tone(900,.08,"square",.1);
+    }
+  });
+}
+function updateHud(){
+  $("hudTime").textContent=hourLabel(Math.floor(G.t/HOUR_MS));
+  $("hudPow").textContent=`Power: ${Math.max(0,Math.ceil(G.power))}%`;
+  const u=usage(); $("hudUse").textContent="Usage: "+"▮".repeat(u);
+  $("boxFill").style.width=Math.max(0,G.box)+"%";
+}
+function usage(){ return 1+(G.door.L?1:0)+(G.door.R?1:0)+(G.light.L||G.light.R?1:0)+(G.camOpen?1:0); }
+
+/* ============ GAME LOOP ============ */
+const MOVE_EVERY={ahmad:6,liberman:5,lapid:4.5};
+function tick(){
+  if(!G||G.over) return;
+  const now=performance.now(), dt=Math.min(.5,(now-G.last)/1000); G.last=now;
+  G.t+=dt*1000;
+  const hour=Math.floor(G.t/HOUR_MS);
+  if(hour>=6){ return winNight(); }
+
+  // power
+  if(!G.powerOut){
+    G.power-=dt*(.07*usage()+.04);
+    if(G.power<=0){ G.power=0; blackout(); }
+  } else {
+    G.outT+=dt;
+    if(G.outT>8 && !G.outScare){ G.outScare=true; jumpscare("ahmad","Power ran out. Ahmad was waiting in the dark."); return; }
+    if(Math.floor(G.outT*2)%4===0) tone(400+Math.random()*20,.1,"triangle",.05);
+  }
+
+  // night AI scales a bit with hour
+  const bonus=hour>=3?1:0;
+
+  // humanoids
+  for(const id of ["ahmad","liberman","lapid"]){
+    const c=G.ch[id]; c.cd-=dt; if(c.cd>0) continue; c.cd=MOVE_EVERY[id];
+    const lvl=G.ai[id]+(G.ai[id]>0?bonus:0);
+    if(Math.random()*20>=lvl) continue;
+    // Ahmad freezes while someone is watching him
+    if(id==="ahmad" && G.camOpen && ROOM_CAM[c.room]===G.cam) continue;
+    if(c.room==="doorL"||c.room==="doorR"){
+      const s=c.room==="doorL"?"L":"R";
+      if(G.door[s]){ c.i=1; c.room=c.route[1]; tone(70,.3,"square",.2); }          // bounced off the door
+      else return jumpscare(id, `${CH[id].name} got in through the ${s==="L"?"left":"right"} door.`);
+    } else { c.i++; c.room=c.route[c.i]; if(c.room.startsWith("door")) tone(60,.4,"sawtooth",.12); else tone(180,.12,"square",.05); }
+  }
+
+  // Benet (Foxy)
+  const b=G.ch.benet;
+  if(b.run===null){
+    b.cd=(b.cd||0)-dt;
+    if(b.cd<=0){ b.cd=5.5; if(Math.random()*20<G.ai.benet+(G.ai.benet>0?bonus:0) && !(G.camOpen&&G.cam===5)){ b.stage++; if(b.stage>=3){ b.stage=3; b.run=6+Math.random()*5; } } }
+  } else {
+    if(G.camOpen && G.cam===5 && b.run>2.5) b.run=2.5;    // spotted -> sprints
+    b.run-=dt;
+    if(b.run<=0){
+      if(G.door.L){ G.power=Math.max(0,G.power-6-G.night); b.stage=1; b.run=null; tone(50,.6,"sawtooth",.4); G.msg="BANG BANG BANG on the left door!"; $("officeTxt").textContent=G.msg; }
+      else return jumpscare("benet","Bennett sprinted down the west hall.");
+    }
+  }
+
+  // Mansour / music box
+  if(!G.powerOut){
+    const rate=3.2+G.ai.mansur*.55;              // % per second drain
+    if(G.winding && G.camOpen && G.cam===6) G.box=Math.min(100,G.box+30*dt); else G.box-=dt*rate/ (G.ai.mansur?1:4);
+    if(G.box>0){ if(!musicOn) musicStart(); const low=G.box<25; if(low&&Math.floor(G.t/400)%2) tone(200,.05,"square",.03); }
+    else { musicStop(); G.box=0; G.boxFuse=(G.boxFuse===null?7:G.boxFuse)-dt;
+      if(G.boxFuse<=0) return jumpscare("mansur","The music stopped. Mansour found you."); }
+    if(G.box>25 && G.boxFuse!==null) G.boxFuse=null;
+  } else musicStop();
+
+  renderLights();
+  if(G.camOpen) renderCam();
+  updateHud();
+}
+function blackout(){
+  G.powerOut=true; G.outT=0; G.outScare=false;
+  G.door.L=G.door.R=false; G.light.L=G.light.R=false; G.camOpen=false;
+  ["L","R"].forEach(s=>{ $("door"+s).classList.remove("closed"); $("d"+s).classList.remove("act"); });
+  $("cams").classList.remove("on"); renderLights();
+  $("officeTxt").textContent="POWER OUT...";
+  $("office").style.filter="brightness(.35)";
+  musicStop();
+}
+
+/* ============ END STATES ============ */
+function jumpscare(id,why){
+  if(G.over) return; G.over=true; clearInterval(loop); musicStop();
+  $("office").style.filter="";
+  const f=$("scareFace"); f.innerHTML="";
+  const p=portrait(id); p.querySelector("div:last-child") && p.lastChild.tagName==="DIV" && p.removeChild(p.lastChild); f.appendChild(p);
+  show("scare"); $("scare").classList.add("on"); noiseBurst(1.4,.7);
+  setTimeout(()=>{ $("overTxt").textContent="GAME OVER"; $("overSub").textContent=why; show("over"); },1500);
+}
+function winNight(){
+  G.over=true; clearInterval(loop); musicStop(); $("office").style.filter="";
+  progress=Math.max(progress,Math.min(NIGHTS,G.night+(G.night<NIGHTS?1:0))); localStorage.setItem("fna_night",progress);
+  const last=G.night>=NIGHTS;
+  $("winTxt").textContent=last?"You survived all five nights, Bibi!":`Night ${G.night} survived`;
+  $("nextBtn").textContent=last?"Menu":"Next Night";
+  show("win"); [0,.18,.36,.54].forEach((t,i)=>tone(523*(1+i*.25),.5,"triangle",.15,t));
+}
+</script>
+</body>
+</html>
